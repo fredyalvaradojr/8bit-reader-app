@@ -10,6 +10,19 @@ export const getAllCategories = () =>
     .then(data => data.categories)
 
 export const getAllPosts = () =>
-    fetch(`${apiServerUrl}/posts`, { headers })
-      .then(res => res.json())
-      .then(data => data.categories)
+  fetch(`${apiServerUrl}/posts`, { headers })
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      return data;
+    })
+
+export const getAllPostComments = (postId) =>
+  fetch(`${apiServerUrl}/posts/${postId}/comments`, { headers })
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      return data;
+    })

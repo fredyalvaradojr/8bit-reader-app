@@ -1,27 +1,73 @@
 import { combineReducers } from 'redux';
 import {
-  ADD_POST,
-  EDIT_POST,
-  DELETE_POST,
-  ADD_COMMENT_TO_POST,
-  EDIT_COMMENT_FROM_POST,
-  DELETE_COMMENT_FROM_POST
+  POST_LOADED,
+  COMMENTS_LOADED,
+  POST_ADD,
+  POST_EDIT,
+  POST_DELETE,
+  POST_ADD_COMMENT,
+  POST_EDIT_COMMENT,
+  POST_DELETE_COMMENT
 } from '../actions/index';
 import * as api from '../utils/apiServerInterface';
 
-function posts (state = {}, action) {
+const initialState = {
+  posts: [],
+  comments: []
+}
+
+function posts (state = initialState.posts, action) {
   switch(action.type) {
-    case "ADD_POST":
+    case POST_LOADED:
+      return action.posts;
+    default:
+      return state;
+  }
+}
+
+function comments (state = initialState.comments, action) {
+  switch(action.type) {
+    case COMMENTS_LOADED:
+      // get all the comments for each of the posts
+      return action.comments;
+    default:
+      return state;
+  }
+}
+/*
+function posts (state = {}, action) {
+  const {
+    id,
+    timestamp,
+    title,
+    body,
+    author,
+    category,
+    voteScore,
+    deleted,
+    commentCount
+  } = action;
+  switch(action.type) {
+    case ADD_POST:
+        return {
+          ...state,
+          [id] : {
+            ...[id],
+            [title]: title,
+            [body]: body,
+            [author]: author,
+            [category]: category
+          }
+        };
+    case EDIT_POST:
         return state;
-    case "EDIT_POST":
-        return state;
-    case "DELETE_POST":
+    case DELETE_POST:
         return state;
     default:
         return state;
   }
 }
-/*
+
 function categories (state = {}, action) {
   switch(action.type) {
     case "ADD_CATEGORY":
@@ -36,18 +82,20 @@ function categories (state = {}, action) {
 }
 */
 
+/*
 function comments (state = {}, action) {
   switch(action.type) {
-    case "ADD_COMMENT_TO_POST":
+    case ADD_COMMENT_TO_POST:
         return state;
-    case "EDIT_COMMENT_FROM_POST":
+    case EDIT_COMMENT_FROM_POST:
         return state;
-    case "DELETE_COMMENT_FROM_POST":
+    case DELETE_COMMENT_FROM_POST:
         return state;
     default:
         return state;
   }
 }
+*/
 
 export default combineReducers( {
   posts,
