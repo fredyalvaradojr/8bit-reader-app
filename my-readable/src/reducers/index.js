@@ -12,8 +12,7 @@ import {
 import * as api from '../utils/apiServerInterface';
 
 const initialState = {
-  posts: [],
-  comments: []
+  posts: []
 }
 
 function posts (state = initialState.posts, action) {
@@ -98,6 +97,5 @@ function comments (state = {}, action) {
 */
 
 export default combineReducers( {
-  posts,
-  comments
+  posts
 } );

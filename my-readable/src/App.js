@@ -1,36 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { css } from 'emotion';
+import Post from './componets/Post';
 import * as api from './utils/apiServerInterface';
 import * as actions from './actions';
 import './App.css';
 
 class App extends Component {
-  state = { comments: [] }
+
+  App = css`
+    width: 100%;
+    min-height: 100%;
+    border: 1.5em solid #ccc;
+    padding: 1.5em;
+  `;
 
   render() {
     return (
-      <div className="App">
+      <div className={this.App} data-class="App">
         <ul>
-        {this.props.posts.map( post => {
-          return (
-            <li key={post.id}>
-              <h2>{post.title}</h2>
-              <p>{post.body}</p>
-              { post.comments.length > 0 ?
-                  <div className="comments">
-                    <h2>comments:</h2>
-                    <ul>
-                      {post.comments.map( comment => <li key={comment.id}>{comment.body}</li>)}
-                    </ul>
-                  </div>
-                :
-                  <div className="comments">
-                    <h2>This post needs your feedback</h2>
-                  </div>
-              }
-            </li>
-          );
-        })}
+          {this.props.posts.map( post => <Post key={post.id} postContent={post} /> )}
         </ul>
       </div>
     );
@@ -45,10 +34,6 @@ function mapStateToProps (state, ownProps) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  loadpost: dispatch(actions.loadPosts()),
-  getComments: postID => {
-    dispatch(actions.loadComments(postID))
-  }
+  loadpost: dispatch(actions.loadPosts())
 })
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
