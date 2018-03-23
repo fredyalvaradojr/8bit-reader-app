@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import { Switch, Route } from 'react-router-dom';
 import { css } from 'emotion';
-import Post from './componets/Post';
-import * as api from './utils/apiServerInterface';
-import * as actions from './actions';
-import './App.css';
+import PostList from './componets/PostList';
 
 class App extends Component {
 
@@ -14,26 +11,26 @@ class App extends Component {
     border: 1.5em solid #ccc;
     padding: 1.5em;
   `;
+  getPathNameComponent = (pathName) => {
+    switch (pathName) {
+      default: {
+        return PostList;
+      }
+    }
+  }
 
   render() {
+    const pathName = window.location.pathname;
+    const pathComponent = this.getPathNameComponent(pathName);
+
     return (
       <div className={this.App} data-class="App">
-        <ul>
-          {this.props.posts.map( post => <Post key={post.id} postContent={post} /> )}
-        </ul>
+        <Switch>
+          <Route key={pathName} path={pathName} component={pathComponent} />
+        </Switch>
       </div>
     );
   }
 }
 
-function mapStateToProps (state, ownProps) {
-  return {
-    posts: state.posts,
-    comments: state.comments
-  }
-}
-
-const mapDispatchToProps = (dispatch) => ({
-  loadpost: dispatch(actions.loadPosts())
-})
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

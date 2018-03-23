@@ -4,11 +4,18 @@ import { injectGlobal } from 'emotion'
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import { BrowserRouter } from 'react-router-dom';
+import WebFont from 'webfontloader';
 import globalStyles from './utils/globalStyles';
 import reducer from './reducers';
-import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+
+WebFont.load({
+  google: {
+    families: ['Bungee:400']
+  }
+});
 
 injectGlobal`
   ${globalStyles.normalize}
@@ -41,7 +48,9 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root')
 )
