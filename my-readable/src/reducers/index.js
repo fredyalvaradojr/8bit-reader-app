@@ -1,101 +1,50 @@
-import { combineReducers } from 'redux';
-import {
-  POST_LOADED,
-  COMMENTS_LOADED,
-  POST_ADD,
-  POST_EDIT,
-  POST_DELETE,
-  POST_ADD_COMMENT,
-  POST_EDIT_COMMENT,
-  POST_DELETE_COMMENT
-} from '../actions/index';
-import * as api from '../utils/apiServerInterface';
+import { combineReducers } from "redux";
+import * as actions from "../actions/index";
+import * as api from "../utils/apiServerInterface";
 
 const initialState = {
-  posts: []
-}
+  posts: [],
+  comments: [],
+  currentPost: {},
+  currentView: null
+};
 
-function posts (state = initialState.posts, action) {
-  switch(action.type) {
-    case POST_LOADED:
+function posts(state = initialState.posts, action) {
+  switch (action.type) {
+    case actions.POST_LOADED:
       return action.posts;
     default:
       return state;
   }
 }
 
-function comments (state = initialState.comments, action) {
-  switch(action.type) {
-    case COMMENTS_LOADED:
-      // get all the comments for each of the posts
-      return action.comments;
+function currentPost(state = initialState.currentPost, action) {
+  switch (action.type) {
+    case actions.CURRENT_LOCATION_SET:
+      return action.currentPost;
     default:
       return state;
   }
 }
-/*
-function posts (state = {}, action) {
-  const {
-    id,
-    timestamp,
-    title,
-    body,
-    author,
-    category,
-    voteScore,
-    deleted,
-    commentCount
-  } = action;
-  switch(action.type) {
-    case ADD_POST:
-        return {
-          ...state,
-          [id] : {
-            ...[id],
-            [title]: title,
-            [body]: body,
-            [author]: author,
-            [category]: category
-          }
-        };
-    case EDIT_POST:
-        return state;
-    case DELETE_POST:
-        return state;
+
+function currentView(state = initialState.currentView, action) {
+  switch (action.type) {
+    case actions.SET_CURRENT_VIEW:
+      return action.currentView;
     default:
-        return state;
+      return state;
   }
 }
 
-function categories (state = {}, action) {
-  switch(action.type) {
-    case "ADD_CATEGORY":
-        return state;
-    case "EDIT_CATEGORY":
-        return state;
-    case "DELETE_CATEGORY":
-        return state;
+function comments(state = initialState.comments, action) {
+  switch (action.type) {
     default:
-        return state;
+      return state;
   }
 }
-*/
 
-/*
-function comments (state = {}, action) {
-  switch(action.type) {
-    case ADD_COMMENT_TO_POST:
-        return state;
-    case EDIT_COMMENT_FROM_POST:
-        return state;
-    case DELETE_COMMENT_FROM_POST:
-        return state;
-    default:
-        return state;
-  }
-}
-*/
-
-export default combineReducers( {
-  posts
-} );
+export default combineReducers({
+  posts,
+  currentPost,
+  currentView
+});

@@ -1,6 +1,11 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { css } from "emotion";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as actions from "../actions";
 import globalStyles from "../utils/globalStyles";
+import { titleAsUrl } from "../utils/index";
 
 const article = css`
   margin-bottom: 1em;
@@ -42,9 +47,20 @@ const Post = props => {
       <article className={article}>
         <header>
           <h1 className={`${article}_header`}>
-            <a className={`${article}_header_link`}>
+            <NavLink
+              activeClassName="active"
+              className={`${article}_header_link`}
+              exact
+              to={`/post/${props.postContent.category}/${titleAsUrl(
+                props.postContent.title
+              )}`}
+              onClick={() => {
+                props.setCurrentPostDispatch(props.postContent);
+                props.setCurrentView("PostView");
+              }}
+            >
               {props.postContent.title}
-            </a>
+            </NavLink>
           </h1>
         </header>
         <div className={`${article}_meta`}>
@@ -58,4 +74,20 @@ const Post = props => {
   );
 };
 
-export default Post;
+function mapStateToProps(state, ownProps) {
+  console.debug(state);
+  return {
+    currentPost: state.currentPost
+  };
+}
+
+const mapDispatchToProps = dispatch => ({
+  setCurrentPostDispatch: post => {
+    dispatch(actions.setCurrentPost(post));
+  },
+  setCurrentView: view => {
+    dispatch(actions.setCurrentView(view));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post);
