@@ -1,13 +1,13 @@
-const apiServerUrl = "http://localhost:3001"
+const apiServerUrl = "http://localhost:3001";
 
 const headers = {
-  'Authorization': 'grant-access'
-}
+  Authorization: "grant-access"
+};
 
 export const getAllCategories = () =>
   fetch(`${apiServerUrl}/categories`, { headers })
     .then(res => res.json())
-    .then(data => data.categories)
+    .then(data => data.categories);
 
 export const getAllPosts = () =>
   fetch(`${apiServerUrl}/posts`, { headers })
@@ -16,13 +16,22 @@ export const getAllPosts = () =>
     })
     .then(data => {
       return data;
-    })
+    });
 
-export const getAllPostComments = (postId) =>
+export const getPost = id =>
+  fetch(`${apiServerUrl}/posts/${id}`, { headers })
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      return data;
+    });
+
+export const getAllPostComments = postId =>
   fetch(`${apiServerUrl}/posts/${postId}/comments`, { headers })
     .then(res => {
       return res.json();
     })
     .then(data => {
       return data;
-    })
+    });

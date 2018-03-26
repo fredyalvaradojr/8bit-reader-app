@@ -1,6 +1,7 @@
 import { getUniquePostID, getTimeStamp } from "../utils/index";
 import * as api from "../utils/apiServerInterface";
 export const POST_LOADED = "POST_LOADED";
+export const POST_SINGLE_LOADED = "POST_SINGLE_LOADED";
 export const COMMENTS_LOADED = "COMMENTS_LOADED";
 export const POST_ADD = "ADD_POST";
 export const POST_ADD_COMMENT = "ADD_COMMENT_TO_POST";
@@ -42,6 +43,10 @@ export function loadPostsSuccess(posts) {
   return { type: POST_LOADED, posts };
 }
 
+export function loadPostSuccess(post) {
+  return { type: POST_SINGLE_LOADED, post };
+}
+
 export function loadCommentsSuccess(comments) {
   return { type: COMMENTS_LOADED, comments };
 }
@@ -65,6 +70,27 @@ export function loadPosts() {
       })
       .then(posts => {
         dispatch(loadPostsSuccess(posts));
+      });
+  };
+}
+
+export function loadPost(id) {
+  return function(dispatch) {
+    api
+      .getPost(id)
+      .then(post => {
+        console.debug(post);
+        return api
+          .getAllPostComments(post.id)
+          .then(comment => {
+            return Object.assign(post, { comments: comment });
+          })
+          .then(post => {
+            return post;
+          });
+      })
+      .then(posts => {
+        dispatch(loadPostSuccess(posts));
       });
   };
 }

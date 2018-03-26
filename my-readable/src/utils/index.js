@@ -2,6 +2,15 @@ export const titleAsUrl = title => {
   return title.toLowerCase().replace(/ /g, "-");
 };
 
+export const setComponent = () => {
+  let componentName = window.location.pathname;
+  if (componentName.includes("/post/")) {
+    componentName = "PostView";
+  }
+  console.debug(componentName);
+  return componentName;
+};
+
 export const getUniquePostID = () => {
   let token = localStorage.token;
   if (!token)

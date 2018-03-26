@@ -18,6 +18,15 @@ function posts(state = initialState.posts, action) {
   }
 }
 
+function post(state = initialState.currentPost, action) {
+  switch (action.type) {
+    case actions.POST_SINGLE_LOADED:
+      return action.post;
+    default:
+      return state;
+  }
+}
+
 function currentPost(state = initialState.currentPost, action) {
   switch (action.type) {
     case actions.CURRENT_LOCATION_SET:
