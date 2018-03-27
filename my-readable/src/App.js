@@ -16,10 +16,13 @@ class App extends Component {
   `;
 
   componentDidMount() {
-    // check that url contains post(
-    if (window.location.pathname.includes("/post/")) {
-      this.props.setCurrentPost(window.location.pathname.split("/")[3]);
+    // check that url contains second param
+    const locationPathArr = window.location.pathname.split("/");
+    if (locationPathArr[2]) {
+      this.props.setCurrentPost(locationPathArr[2]);
       this.props.setCurrentView("PostView");
+    } else {
+      this.props.setCurrentView("default");
     }
     // yes, then get the id so that you can make a fetch and dispatch current post
   }

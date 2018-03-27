@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
 import * as actions from "../actions/index";
-import * as api from "../utils/apiServerInterface";
 
 const initialState = {
   posts: [],
@@ -18,17 +17,10 @@ function posts(state = initialState.posts, action) {
   }
 }
 
-function post(state = initialState.currentPost, action) {
-  switch (action.type) {
-    case actions.POST_SINGLE_LOADED:
-      return action.post;
-    default:
-      return state;
-  }
-}
-
 function currentPost(state = initialState.currentPost, action) {
   switch (action.type) {
+    case actions.POST_SINGLE_LOADED:
+      return action.currentPost;
     case actions.CURRENT_LOCATION_SET:
       return action.currentPost;
     default:
@@ -45,12 +37,14 @@ function currentView(state = initialState.currentView, action) {
   }
 }
 
+/*
 function comments(state = initialState.comments, action) {
   switch (action.type) {
     default:
       return state;
   }
 }
+*/
 
 export default combineReducers({
   posts,

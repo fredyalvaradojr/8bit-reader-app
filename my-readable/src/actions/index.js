@@ -1,4 +1,4 @@
-import { getUniquePostID, getTimeStamp } from "../utils/index";
+//import { getUniquePostID, getTimeStamp } from "../utils/index";
 import * as api from "../utils/apiServerInterface";
 export const POST_LOADED = "POST_LOADED";
 export const POST_SINGLE_LOADED = "POST_SINGLE_LOADED";
@@ -11,40 +11,13 @@ export const POST_DELETE = "POST_DELETE";
 export const POST_DELETE_COMMENT = "POST_DELETE_COMMENT";
 export const CURRENT_LOCATION_SET = "CURRENT_LOCATION_SET";
 export const SET_CURRENT_VIEW = "SET_CURRENT_VIEW";
-/*
-export function addPost(
-  {
-  id = getUniquePostID,
-  timestamp = getTimeStamp,
-  title,
-  body,
-  author,
-  category,
-  voteScore = 0,
-  deleted = false,
-  commentCount = 0
-  }) {
-  return {
-    type: ADD_POST,
-    id,
-    timestamp,
-    title,
-    body,
-    author,
-    category,
-    voteScore,
-    deleted,
-    commentCount
-  }
-}
-*/
 
 export function loadPostsSuccess(posts) {
   return { type: POST_LOADED, posts };
 }
 
-export function loadPostSuccess(post) {
-  return { type: POST_SINGLE_LOADED, post };
+export function loadPostSuccess(currentPost) {
+  return { type: POST_SINGLE_LOADED, currentPost };
 }
 
 export function loadCommentsSuccess(comments) {
@@ -79,7 +52,6 @@ export function loadPost(id) {
     api
       .getPost(id)
       .then(post => {
-        console.debug(post);
         return api
           .getAllPostComments(post.id)
           .then(comment => {
@@ -89,8 +61,8 @@ export function loadPost(id) {
             return post;
           });
       })
-      .then(posts => {
-        dispatch(loadPostSuccess(posts));
+      .then(post => {
+        dispatch(loadPostSuccess(post));
       });
   };
 }

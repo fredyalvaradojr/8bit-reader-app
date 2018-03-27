@@ -2,10 +2,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { css } from "emotion";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import * as actions from "../actions";
 import globalStyles from "../utils/globalStyles";
-import { titleAsUrl } from "../utils/index";
 
 const article = css`
   margin-bottom: 1em;
@@ -51,7 +49,7 @@ const Post = props => {
               activeClassName="active"
               className={`${article}_header_link`}
               exact
-              to={`/post/${props.postContent.category}/${props.postContent.id}`}
+              to={`/${props.postContent.category}/${props.postContent.id}`}
               onClick={() => {
                 props.setCurrentPostDispatch(props.postContent);
                 props.setCurrentView("PostView");

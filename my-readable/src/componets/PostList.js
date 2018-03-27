@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import Post from "../componets/Post";
-import * as api from "../utils/apiServerInterface";
 import * as actions from "../actions";
 
 const PostList = props => {
