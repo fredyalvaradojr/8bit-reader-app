@@ -4,27 +4,18 @@ import { connect } from "react-redux";
 import globalStyles from "../utils/globalStyles";
 import PostTools from "./PostTools";
 import BackButton from "./BackButton";
+import { hexToRGB } from "../utils/index";
 
 const article = css`
   &_header {
     font-family: "Bungee", cursive;
-  }
-
-  &_header_link {
-    text-decoration: none;
-    color: ${globalStyles.color.black};
-    line-height: 1.5;
-    border-bottom-width: 0.0625em;
-    border-bottom-color: transparent;
-    cursor: pointer;
-
-    &:focus,
-    &:hover,
-    &:active {
-      border-bottom-style: dotted;
-      border-bottom-width: 0.0625em;
-      border-bottom-color: ${globalStyles.color.black};
-    }
+    color: ${globalStyles.color.orange};
+    margin: 1em 0;
+    padding: 1em 0;
+    border-top: 0.1875em dashed ${globalStyles.color.darkGray};
+    border-bottom: 0.1875em dashed ${globalStyles.color.darkGray};
+    text-shadow: 0.125em 0.125em
+      rgba(${hexToRGB(globalStyles.color.darkOrange)}, 1);
   }
 
   &_meta {

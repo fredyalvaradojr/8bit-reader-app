@@ -10,7 +10,7 @@ const BackButton = props => {
     text-align: left;
     color: ${globalStyles.color.black};
     padding: 0.3em 0.6em;
-    font-size: 0.625em;
+    font-size: 0.5em;
     border-radius: 0.1875em;
     text-transform: uppercase;
     font-weight: bold;
