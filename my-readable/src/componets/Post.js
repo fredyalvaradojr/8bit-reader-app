@@ -4,6 +4,8 @@ import { css } from "emotion";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import globalStyles from "../utils/globalStyles";
+import { hexToRGB } from "../utils/index";
+import PostTools from "./PostTools";
 
 const article = css`
   margin-bottom: 1em;
@@ -16,7 +18,8 @@ const article = css`
 
   &_header_link {
     text-decoration: none;
-    color: ${globalStyles.color.black};
+    color: ${globalStyles.color.purple};
+    text-shadow: 0.25em 0.25em rgba(${hexToRGB(globalStyles.color.purple)}, 0.2);
     line-height: 1.5;
     border-bottom-width: 0.0625em;
     border-bottom-color: transparent;
@@ -64,7 +67,11 @@ const Post = props => {
           <div className={`${article}_number-comments`}>
             {props.postContent.commentCount}
           </div>
+          <div className={`${article}_votes`}>
+            {props.postContent.voteScore}
+          </div>
         </div>
+        <PostTools postId={props.postContent.id} />
       </article>
     </li>
   );

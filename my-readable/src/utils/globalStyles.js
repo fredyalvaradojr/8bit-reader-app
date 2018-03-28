@@ -4,7 +4,10 @@ const globalStyles = {
     black: "#282828",
     darkGray: "#424242",
     orange: "#FF6D37",
-    darkOrange: "#7F5242"
+    darkOrange: "#7F5242",
+    white: "#fff",
+    purple: "#3F2287",
+    lightPurple: "#9075D4"
   }
 };
 

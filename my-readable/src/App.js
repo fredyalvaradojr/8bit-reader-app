@@ -6,6 +6,7 @@ import * as actions from "./actions/index";
 import { setComponent } from "./utils/index";
 import PostList from "./componets/PostList";
 import PostView from "./componets/PostView";
+import AppHeader from "./componets/AppHeader";
 
 class App extends Component {
   App = css`
@@ -47,6 +48,7 @@ class App extends Component {
 
     return (
       <div className={this.App} data-class="App">
+        <AppHeader />
         <Switch>
           <Route key={pathName} path={pathName} component={pathComponent} />
         </Switch>

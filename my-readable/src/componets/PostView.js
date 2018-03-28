@@ -9,13 +9,12 @@ import { hexToRGB } from "../utils/index";
 const article = css`
   &_header {
     font-family: "Bungee", cursive;
-    color: ${globalStyles.color.orange};
+    color: ${globalStyles.color.purple};
+    text-shadow: 0.25em 0.25em rgba(${hexToRGB(globalStyles.color.purple)}, 0.2);
     margin: 1em 0;
     padding: 1em 0;
     border-top: 0.1875em dashed ${globalStyles.color.darkGray};
     border-bottom: 0.1875em dashed ${globalStyles.color.darkGray};
-    text-shadow: 0.125em 0.125em
-      rgba(${hexToRGB(globalStyles.color.darkOrange)}, 1);
   }
 
   &_meta {

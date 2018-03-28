@@ -4,6 +4,7 @@ import * as actions from "../actions/index";
 const initialState = {
   posts: [],
   comments: [],
+  categories: [],
   currentPost: {},
   currentView: null
 };
@@ -37,17 +38,18 @@ function currentView(state = initialState.currentView, action) {
   }
 }
 
-/*
-function comments(state = initialState.comments, action) {
+function categories(state = initialState.categories, action) {
   switch (action.type) {
+    case actions.CATEGORIES_LOADED:
+      return action.allCategories;
     default:
       return state;
   }
 }
-*/
 
 export default combineReducers({
   posts,
   currentPost,
-  currentView
+  currentView,
+  categories
 });

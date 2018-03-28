@@ -3,6 +3,7 @@ import * as api from "../utils/apiServerInterface";
 export const POST_LOADED = "POST_LOADED";
 export const POST_SINGLE_LOADED = "POST_SINGLE_LOADED";
 export const COMMENTS_LOADED = "COMMENTS_LOADED";
+export const CATEGORIES_LOADED = "CATEGORIES_LOADED";
 export const POST_ADD = "ADD_POST";
 export const POST_ADD_COMMENT = "ADD_COMMENT_TO_POST";
 export const POST_EDIT = "EDIT_POST";
@@ -22,6 +23,11 @@ export function loadPostSuccess(currentPost) {
 
 export function loadCommentsSuccess(comments) {
   return { type: COMMENTS_LOADED, comments };
+}
+
+export function loadAllCategoriesSuccess(allCategories) {
+  console.debug(allCategories);
+  return { type: CATEGORIES_LOADED, allCategories };
 }
 
 export function loadPosts() {
@@ -64,6 +70,15 @@ export function loadPost(id) {
       .then(post => {
         dispatch(loadPostSuccess(post));
       });
+  };
+}
+
+export function loadallCategories() {
+  return function(dispatch) {
+    api
+      .getAllCategories()
+      .then(allCategories => allCategories)
+      .then(allCategories => dispatch(loadAllCategoriesSuccess(allCategories)));
   };
 }
 
