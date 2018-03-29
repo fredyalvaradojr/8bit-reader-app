@@ -13,7 +13,7 @@ import registerServiceWorker from "./registerServiceWorker";
 
 WebFont.load({
   google: {
-    families: ["Bungee:400", "Nunito+Sans:400"]
+    families: ["Bungee:400", "Nunito+Sans:400,900", "Erica+One"]
   }
 });
 

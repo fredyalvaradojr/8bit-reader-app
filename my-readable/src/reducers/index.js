@@ -11,6 +11,8 @@ const initialState = {
 
 function posts(state = initialState.posts, action) {
   switch (action.type) {
+    case actions.POST_LOADED_VIA_FILTER:
+      return action.posts;
     case actions.POST_LOADED:
       return action.posts;
     default:

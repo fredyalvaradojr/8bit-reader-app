@@ -1,6 +1,7 @@
 //import { getUniquePostID, getTimeStamp } from "../utils/index";
 import * as api from "../utils/apiServerInterface";
 export const POST_LOADED = "POST_LOADED";
+export const POST_LOADED_VIA_FILTER = "POST_LOADED_VIA_FILTER";
 export const POST_SINGLE_LOADED = "POST_SINGLE_LOADED";
 export const COMMENTS_LOADED = "COMMENTS_LOADED";
 export const CATEGORIES_LOADED = "CATEGORIES_LOADED";

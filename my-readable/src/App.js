@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Switch, Route } from "react-router-dom";
 import { css } from "emotion";
+import globalStyles from "./utils/globalStyles";
 import * as actions from "./actions/index";
 import { setComponent } from "./utils/index";
 import PostList from "./componets/PostList";
@@ -12,7 +13,7 @@ class App extends Component {
   App = css`
     width: 100%;
     min-height: 100%;
-    border: 1.5em solid #ccc;
+    border: 1.5em solid ${globalStyles.color.darkGray};
     padding: 1.5em;
   `;
 

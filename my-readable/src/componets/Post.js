@@ -9,11 +9,12 @@ import PostTools from "./PostTools";
 
 const article = css`
   margin-bottom: 1em;
-  border-bottom: 0.125em dotted #ccc;
+  border-bottom: 0.125em dotted ${globalStyles.color.darkGray};
   padding-bottom: 1em;
 
   &_header {
     font-family: "Bungee", cursive;
+    font-size: 1.125em;
   }
 
   &_header_link {
@@ -47,7 +48,7 @@ const Post = props => {
     <li key={props.postContent.id}>
       <article className={article}>
         <header>
-          <h1 className={`${article}_header`}>
+          <h2 className={`${article}_header`}>
             <NavLink
               activeClassName="active"
               className={`${article}_header_link`}
@@ -60,7 +61,7 @@ const Post = props => {
             >
               {props.postContent.title}
             </NavLink>
-          </h1>
+          </h2>
         </header>
         <div className={`${article}_meta`}>
           <div className={`${article}_author`}>{props.postContent.author}</div>
