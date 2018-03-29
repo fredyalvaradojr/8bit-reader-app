@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { css } from "emotion";
-import { NavLink } from "react-router-dom";
-import { loadallCategories } from "../actions";
-import MyReadableLogo from "../media/logo.svg";
+import { withRouter } from "react-router-dom";
+import {
+  loadallCategories,
+  setCurrentView,
+  categoryFilterSelected
+} from "../actions";
 import globalStyles from "../utils/globalStyles";
 import { hexToRGB } from "../utils/index";
 
@@ -44,14 +47,32 @@ class FilterCategories extends Component {
     }
   `;
 
-  state = {
-    filterStatus: ""
-  };
+  constructor(props) {
+    super(props);
+    console.debug(
+      "props.categoryFilterSelectedValue: ",
+      props.categoryFilterSelectedValue
+    );
+    this.state = {
+      selectStatus: props.categoryFilterSelectedValue
+    };
+  }
 
-  togglefilterStatus = () => {
-    const filterStatus =
-      this.state.filterStatus === "" ? `appHeader_active` : "";
-    this.setState({ filterStatus });
+  togglefilterStatus = e => {
+    if (
+      e.currentTarget.value !== this.state.selectStatus &&
+      e.currentTarget.value !== "all"
+    ) {
+      this.setState({ selectStatus: e.currentTarget.value });
+      this.props.setCurrentView("CategoryView");
+      this.props.categoryFilterSelected(e.currentTarget.value);
+      this.props.history.push(`/category/${e.currentTarget.value}`);
+    } else {
+      this.setState({ selectStatus: e.currentTarget.value });
+      this.props.setCurrentView("default");
+      this.props.categoryFilterSelected(e.currentTarget.value);
+      this.props.history.push(`/`);
+    }
   };
 
   render() {
@@ -72,12 +93,14 @@ class FilterCategories extends Component {
               <select
                 id="filter-category"
                 className={`${this.filterCategoriesCSS}_filter-select`}
-                value={``}
-                onChange={``}
+                value={this.state.selectStatus}
+                onChange={e => this.togglefilterStatus(e)}
               >
                 <option value="all">All</option>
                 {this.props.categories.map(category => (
-                  <option value={category.path}>{category.name}</option>
+                  <option key={category.name} value={category.path}>
+                    {category.name}
+                  </option>
                 ))}
               </select>
             </label>
@@ -91,12 +114,21 @@ class FilterCategories extends Component {
 const mapStateToProps = state => {
   console.debug(state);
   return {
-    categories: state.categories
+    categories: state.categories,
+    categoryFilterSelectedValue: state.categoryFilterSelected
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  dispatchLoadAllCategories: dispatch(loadallCategories())
+  dispatchLoadAllCategories: dispatch(loadallCategories()),
+  setCurrentView: view => {
+    dispatch(setCurrentView(view));
+  },
+  categoryFilterSelected: category => {
+    dispatch(categoryFilterSelected(category));
+  }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterCategories);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(FilterCategories)
+);

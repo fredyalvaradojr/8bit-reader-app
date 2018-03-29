@@ -7,6 +7,7 @@ import * as actions from "./actions/index";
 import { setComponent } from "./utils/index";
 import PostList from "./componets/PostList";
 import PostView from "./componets/PostView";
+import CategoryView from "./componets/CategoryView";
 import AppHeader from "./componets/AppHeader";
 
 class App extends Component {
@@ -17,16 +18,20 @@ class App extends Component {
     padding: 1.5em;
   `;
 
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     // check that url contains second param
     const locationPathArr = window.location.pathname.split("/");
-    if (locationPathArr[2]) {
+    console.debug(locationPathArr);
+    if (locationPathArr[1] === "category") {
+      this.props.categoryFilterSelected(locationPathArr[2]);
+      this.props.setCurrentView("CategoryView");
+    } else if (locationPathArr[1] === "post") {
       this.props.setCurrentPost(locationPathArr[2]);
       this.props.setCurrentView("PostView");
     } else {
       this.props.setCurrentView("default");
     }
-    // yes, then get the id so that you can make a fetch and dispatch current post
   }
 
   getPathNameComponent = currentView => {
@@ -35,6 +40,9 @@ class App extends Component {
     switch (currentView) {
       case "PostView": {
         return PostView;
+      }
+      case "CategoryView": {
+        return CategoryView;
       }
       default: {
         return PostList;
@@ -72,6 +80,9 @@ const mapDispatchToProps = dispatch => ({
   },
   setCurrentView: view => {
     dispatch(actions.setCurrentView(view));
+  },
+  categoryFilterSelected: category => {
+    dispatch(actions.categoryFilterSelected(category));
   }
 });
 

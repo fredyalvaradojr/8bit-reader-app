@@ -4,8 +4,6 @@ import { css } from "emotion";
 import { NavLink } from "react-router-dom";
 import { loadallCategories } from "../actions";
 import MyReadableLogo from "../media/logo.svg";
-import globalStyles from "../utils/globalStyles";
-import { hexToRGB } from "../utils/index";
 
 class AppHeader extends Component {
   appHeader = css`

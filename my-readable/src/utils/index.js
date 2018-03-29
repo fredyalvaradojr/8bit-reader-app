@@ -6,6 +6,8 @@ export const setComponent = () => {
   let componentName = window.location.pathname;
   if (componentName.includes("/post/")) {
     componentName = "PostView";
+  } else if (componentName.includes("/category/")) {
+    componentName = "CategoryView";
   }
   console.debug(componentName);
   return componentName;
