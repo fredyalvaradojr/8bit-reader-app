@@ -28,8 +28,12 @@ export function loadCommentsSuccess(comments) {
 }
 
 export function loadAllCategoriesSuccess(allCategories) {
-  console.debug(allCategories);
   return { type: CATEGORIES_LOADED, allCategories };
+}
+
+export function loadFilterCategorySuccess(filteredCategoryPosts) {
+  console.debug("loadFilterCategorySuccess: ", filteredCategoryPosts);
+  return { type: POST_LOADED_VIA_FILTER, filteredCategoryPosts };
 }
 
 export function loadPosts() {
@@ -72,6 +76,16 @@ export function loadPost(id) {
       .then(post => {
         dispatch(loadPostSuccess(post));
       });
+  };
+}
+
+export function loadFilterCategory(category) {
+  console.debug("loadFilterCategory: ", category);
+  return function(dispatch) {
+    api.getFilterCategory(category).then(posts => {
+      console.debug("category posts:", posts);
+      dispatch(loadFilterCategorySuccess(posts));
+    });
   };
 }
 

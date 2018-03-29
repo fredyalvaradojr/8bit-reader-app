@@ -9,6 +9,11 @@ export const getAllCategories = () =>
     .then(res => res.json())
     .then(data => data.categories);
 
+export const getFilterCategory = category =>
+  fetch(`${apiServerUrl}/${category}/posts`, { headers })
+    .then(res => res.json())
+    .then(data => data);
+
 export const getAllPosts = () =>
   fetch(`${apiServerUrl}/posts`, { headers })
     .then(res => {

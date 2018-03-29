@@ -5,6 +5,7 @@ const initialState = {
   posts: [],
   comments: [],
   categories: [],
+  postCategoryFilter: [],
   currentPost: {},
   currentView: null,
   categoryFilterSelected: "all"
@@ -12,8 +13,6 @@ const initialState = {
 
 function posts(state = initialState.posts, action) {
   switch (action.type) {
-    case actions.POST_LOADED_VIA_FILTER:
-      return action.posts;
     case actions.POST_LOADED:
       return action.posts;
     default:
@@ -50,6 +49,16 @@ function categories(state = initialState.categories, action) {
   }
 }
 
+function postCategoryFilter(state = initialState.postCategoryFilter, action) {
+  switch (action.type) {
+    case actions.POST_LOADED_VIA_FILTER:
+      console.debug("filteredCategoryPosts: ", action.filteredCategoryPosts);
+      return action.filteredCategoryPosts;
+    default:
+      return state;
+  }
+}
+
 function categoryFilterSelected(
   state = initialState.categoryFilterSelected,
   action
@@ -67,5 +76,6 @@ export default combineReducers({
   currentPost,
   currentView,
   categories,
+  postCategoryFilter,
   categoryFilterSelected
 });

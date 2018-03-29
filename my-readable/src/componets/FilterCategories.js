@@ -5,7 +5,8 @@ import { withRouter } from "react-router-dom";
 import {
   loadallCategories,
   setCurrentView,
-  categoryFilterSelected
+  categoryFilterSelected,
+  loadFilterCategory
 } from "../actions";
 import globalStyles from "../utils/globalStyles";
 import { hexToRGB } from "../utils/index";
@@ -66,6 +67,7 @@ class FilterCategories extends Component {
       this.setState({ selectStatus: e.currentTarget.value });
       this.props.setCurrentView("CategoryView");
       this.props.categoryFilterSelected(e.currentTarget.value);
+      this.props.loadFilterCategory(e.currentTarget.value);
       this.props.history.push(`/category/${e.currentTarget.value}`);
     } else {
       this.setState({ selectStatus: e.currentTarget.value });
@@ -126,6 +128,9 @@ const mapDispatchToProps = dispatch => ({
   },
   categoryFilterSelected: category => {
     dispatch(categoryFilterSelected(category));
+  },
+  loadFilterCategory: category => {
+    dispatch(loadFilterCategory(category));
   }
 });
 

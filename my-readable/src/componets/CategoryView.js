@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { css } from "emotion";
 import Post from "../componets/Post";
@@ -12,29 +12,49 @@ const PostListStyles = css`
   padding-top: 1em;
 `;
 
-const PostList = props => {
-  return (
-    <div>
-      <ViewTitle
-        content={`The ${props.categoryFilterSelectedValue} Category`}
-      />
-      <FilterCategories />
-      <ul className={PostListStyles} data-class="PostListStyles">
-        {props.posts.map(post => <Post key={post.id} postContent={post} />)}
-      </ul>
-    </div>
-  );
-};
+class PostList extends Component {
+  constructor(props) {
+    super(props);
+    console.debug(this.props.categoryFilterSelectedValue);
+    this.props.loadFilterCategory(this.props.categoryFilterSelectedValue);
+  }
+
+  render() {
+    return (
+      <div>
+        <ViewTitle
+          content={`The ${this.props.categoryFilterSelectedValue} Category`}
+        />
+        <FilterCategories />
+        <ul className={PostListStyles} data-class="PostListStyles">
+          {this.props.posts.length > 0 ? (
+            this.props.posts.map(post => (
+              <Post key={post.id} postContent={post} />
+            ))
+          ) : (
+            <li>
+              <p>Hmmm.. No posts..</p>
+              <p>Let's add one</p>
+            </li>
+          )}
+        </ul>
+      </div>
+    );
+  }
+}
 
 function mapStateToProps(state, ownProps) {
   return {
-    posts: state.posts,
+    posts: state.postCategoryFilter,
     categoryFilterSelectedValue: state.categoryFilterSelected
   };
 }
 
 const mapDispatchToProps = dispatch => ({
-  loadpost: dispatch(actions.loadPosts())
+  loadFilterCategory: category => {
+    console.debug(category);
+    dispatch(actions.loadFilterCategory(category));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostList);

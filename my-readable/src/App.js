@@ -27,7 +27,7 @@ class App extends Component {
       this.props.categoryFilterSelected(locationPathArr[2]);
       this.props.setCurrentView("CategoryView");
     } else if (locationPathArr[1] === "post") {
-      this.props.setCurrentPost(locationPathArr[2]);
+      this.props.setCurrentPost(locationPathArr[3]);
       this.props.setCurrentView("PostView");
     } else {
       this.props.setCurrentView("default");
