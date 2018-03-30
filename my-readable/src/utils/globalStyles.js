@@ -3,6 +3,7 @@ const globalStyles = {
   color: {
     black: "#282828",
     darkGray: "#424242",
+    gray: "#cccccc",
     orange: "#FF6D37",
     darkOrange: "#7F5242",
     white: "#fff",

@@ -9,6 +9,7 @@ class PostTools extends Component {
   PostToolsStyles = css`
     display: flex;
     align-items: center;
+    justify-content: flex-end;
 
     &_upvote,
     &_downvote {
@@ -25,7 +26,7 @@ class PostTools extends Component {
 
   render() {
     return (
-      <div className={this.PostToolsStyles}>
+      <div className={this.PostToolsStyles} data-class="PostToolsStyles">
         <button
           className={`${this.PostToolsStyles}_upvote`}
           onClick={() =>

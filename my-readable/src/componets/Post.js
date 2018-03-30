@@ -4,8 +4,10 @@ import { css } from "emotion";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import globalStyles from "../utils/globalStyles";
-import { hexToRGB } from "../utils/index";
+import { hexToRGB, editPostTimestamp } from "../utils/index";
 import PostTools from "./PostTools";
+import CommentsSVG from "../media/comments.svg";
+import VotesSVG from "../media/upvote.svg";
 
 const article = css`
   margin-bottom: 1em;
@@ -36,10 +38,39 @@ const article = css`
   }
 
   &_meta {
-    margin-bottom: 0.5em;
+    margin: 0.5em 0 0.3em;
     border-bottom: 0.0625 dashed #ccc;
     padding-bottom: 0.5em;
+  }
+
+  &_author {
+    text-transform: capitalize;
+    font-size: 0.875em;
+  }
+
+  &_date {
+    text-transform: capitalize;
+    color: ${globalStyles.color.lightPurple};
+  }
+
+  &_post-numbers {
     display: flex;
+    align-items: center;
+    font-size: 0.875em;
+    margin-top: 0.2em;
+    margin-bottom: 0.3em;
+  }
+
+  &_number-comments {
+    margin-right: 1em;
+  }
+
+  &_comments-icon,
+  &_votes-icon {
+    width: 1em;
+    height: auto;
+    display: inline-block;
+    margin-right: 0.1em;
   }
 `;
 
@@ -64,12 +95,30 @@ const Post = props => {
           </h2>
         </header>
         <div className={`${article}_meta`}>
-          <div className={`${article}_author`}>{props.postContent.author}</div>
-          <div className={`${article}_number-comments`}>
-            {props.postContent.commentCount}
+          <div className={`${article}_author`}>
+            {props.postContent.author}{" "}
+            <span className={`${article}_date`}>
+              {" "}
+              - {editPostTimestamp(props.postContent.timestamp)}
+            </span>
           </div>
-          <div className={`${article}_votes`}>
-            {props.postContent.voteScore}
+          <div className={`${article}_post-numbers`}>
+            <div className={`${article}_number-comments`}>
+              <img
+                className={`${article}_comments-icon`}
+                src={CommentsSVG}
+                aria-hidden="true"
+              />
+              {props.postContent.commentCount}
+            </div>
+            <div className={`${article}_votes`}>
+              <img
+                className={`${article}_votes-icon`}
+                src={VotesSVG}
+                aria-hidden="true"
+              />
+              {props.postContent.voteScore}
+            </div>
           </div>
         </div>
         <PostTools postId={props.postContent.id} />

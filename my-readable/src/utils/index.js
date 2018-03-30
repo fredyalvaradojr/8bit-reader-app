@@ -2,6 +2,25 @@ export const titleAsUrl = title => {
   return title.toLowerCase().replace(/ /g, "-");
 };
 
+export const editPostTimestamp = t => {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
+  const date = new Date(t * 1000);
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+};
+
 export const setComponent = () => {
   let componentName = window.location.pathname;
   if (componentName.includes("/post/")) {
