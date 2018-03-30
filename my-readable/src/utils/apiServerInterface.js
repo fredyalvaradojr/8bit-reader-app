@@ -1,7 +1,8 @@
 const apiServerUrl = "http://localhost:3001";
 
 const headers = {
-  Authorization: "grant-access"
+  Authorization: "grant-access",
+  "Content-Type": "application/json"
 };
 
 export const getAllCategories = () =>
@@ -40,3 +41,10 @@ export const getAllPostComments = postId =>
     .then(data => {
       return data;
     });
+
+export const postNewVote = (postId, vote) =>
+  fetch(`${apiServerUrl}/posts/${postId}`, {
+    headers,
+    method: "POST",
+    body: JSON.stringify({ option: vote })
+  }).then(res => res);

@@ -13,6 +13,7 @@ const PostListStyles = css`
 `;
 
 const PostList = props => {
+  console.debug(props.posts);
   return (
     <div>
       <ViewTitle content="The List" />
@@ -25,6 +26,7 @@ const PostList = props => {
 };
 
 function mapStateToProps(state, ownProps) {
+  console.debug(state);
   return {
     posts: state.posts
   };

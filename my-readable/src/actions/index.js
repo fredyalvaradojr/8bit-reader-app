@@ -6,6 +6,8 @@ export const CATEGORY_SELECTED = "CATEGORY_SELECTED";
 export const POST_SINGLE_LOADED = "POST_SINGLE_LOADED";
 export const COMMENTS_LOADED = "COMMENTS_LOADED";
 export const CATEGORIES_LOADED = "CATEGORIES_LOADED";
+export const POSTED_VOTE = "POSTED_VOTE";
+export const POSTED_VOTE_FAIL = "POSTED_VOTE_FAIL";
 export const POST_ADD = "ADD_POST";
 export const POST_ADD_COMMENT = "ADD_COMMENT_TO_POST";
 export const POST_EDIT = "EDIT_POST";
@@ -96,6 +98,24 @@ export function loadallCategories() {
       .then(allCategories => allCategories)
       .then(allCategories => dispatch(loadAllCategoriesSuccess(allCategories)));
   };
+}
+
+export function postVote(postId, voteScore, allPosts) {
+  console.debug("action vote: ", postId, voteScore, allPosts);
+  return function(dispatch) {
+    api.postNewVote(postId, voteScore).then(res => {
+      if (res.status === 200) {
+        dispatch(fetchResults({ type: POSTED_VOTE, voteScore, postId }));
+      } else {
+        dispatch(fetchResults({ type: POSTED_VOTE_FAIL, voteScore, postId }));
+      }
+    });
+  };
+}
+
+export function fetchResults(response) {
+  console.debug(response);
+  return response;
 }
 
 export function loadComments(postId) {

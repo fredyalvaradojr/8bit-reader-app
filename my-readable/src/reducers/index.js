@@ -13,6 +13,18 @@ const initialState = {
 
 function posts(state = initialState.posts, action) {
   switch (action.type) {
+    case actions.POSTED_VOTE:
+      return [...state].map(post => {
+        if (action.postId !== post.id) {
+          return post;
+        } else {
+          action.voteScore =
+            action.voteScore === "upVote"
+              ? post.voteScore + 1
+              : post.voteScore - 1;
+          return { ...post, voteScore: action.voteScore };
+        }
+      });
     case actions.POST_LOADED:
       return action.posts;
     default:
