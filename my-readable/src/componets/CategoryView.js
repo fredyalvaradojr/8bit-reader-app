@@ -44,8 +44,9 @@ class PostList extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
+  console.debug(state);
   return {
-    posts: state.postCategoryFilter,
+    posts: state.posts,
     categoryFilterSelectedValue: state.categoryFilterSelected
   };
 }
