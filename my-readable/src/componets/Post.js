@@ -16,7 +16,7 @@ const article = css`
 
   &_header {
     font-family: "Bungee", cursive;
-    font-size: 1.125em;
+    font-size: 1.5em;
   }
 
   &_header_link {
@@ -46,31 +46,36 @@ const article = css`
   &_author {
     text-transform: capitalize;
     font-size: 0.875em;
+    font-weight: bold;
   }
 
   &_date {
     text-transform: capitalize;
     color: ${globalStyles.color.lightPurple};
+    font-size: 0.75em;
+    font-style: italic;
   }
 
   &_post-numbers {
     display: flex;
     align-items: center;
-    font-size: 0.875em;
+    font-size: 0.75em;
     margin-top: 0.2em;
     margin-bottom: 0.3em;
   }
 
-  &_number-comments {
+  &_post-numbers--item {
     margin-right: 1em;
+    display: flex;
+    align-items: baseline;
   }
 
   &_comments-icon,
   &_votes-icon {
-    width: 1em;
-    height: auto;
+    width: auto;
+    height: 0.65em;
     display: inline-block;
-    margin-right: 0.1em;
+    margin-right: 0.2em;
   }
 `;
 
@@ -103,7 +108,9 @@ const Post = props => {
             </span>
           </div>
           <div className={`${article}_post-numbers`}>
-            <div className={`${article}_number-comments`}>
+            <div
+              className={`${article}_number-comments ${article}_post-numbers--item`}
+            >
               <img
                 className={`${article}_comments-icon`}
                 src={CommentsSVG}
@@ -111,7 +118,7 @@ const Post = props => {
               />
               {props.postContent.commentCount}
             </div>
-            <div className={`${article}_votes`}>
+            <div className={`${article}_votes ${article}_post-numbers--item`}>
               <img
                 className={`${article}_votes-icon`}
                 src={VotesSVG}
