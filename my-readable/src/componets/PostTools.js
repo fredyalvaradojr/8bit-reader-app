@@ -4,8 +4,13 @@ import { css } from "emotion";
 import { postVote } from "../actions/index";
 import UpvoteSVG from "../media/upvote.svg";
 import DownvoteSVG from "../media/downvote.svg";
+import Modal from "./Modal";
 
 class PostTools extends Component {
+  state = {
+    activeEditModal: false
+  };
+
   PostToolsStyles = css`
     display: flex;
     align-items: center;
@@ -23,6 +28,13 @@ class PostTools extends Component {
       display: inline-block;
     }
   `;
+
+  toggleEditModal = e => {
+    console.debug(e.currentTarget);
+    this.setState({
+      activeEditModal: this.state.activeEditModal ? false : true
+    });
+  };
 
   render() {
     return (
@@ -59,7 +71,19 @@ class PostTools extends Component {
             aria-hidden="true"
           />
         </button>
-        <span className="post-tools_edit">Edit</span>
+        <button
+          className="post-tools_edit"
+          onClick={e => {
+            this.toggleEditModal(e);
+          }}
+        >
+          Edit
+        </button>
+        {this.state.activeEditModal ? (
+          <Modal {...this.props} closeAction={e => this.toggleEditModal(e)} />
+        ) : (
+          ""
+        )}
         <span className="post-tools_delete">Delete</span>
       </div>
     );

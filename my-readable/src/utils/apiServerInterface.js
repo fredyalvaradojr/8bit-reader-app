@@ -48,3 +48,13 @@ export const postNewVote = (postId, vote) =>
     method: "POST",
     body: JSON.stringify({ option: vote })
   }).then(res => res);
+
+export const editSelectedPost = props =>
+  fetch(`${apiServerUrl}/posts/${props.postInfoID}`, {
+    headers,
+    method: "PUT",
+    body: JSON.stringify({
+      title: props.postInfoTitle,
+      body: props.postInfoBody
+    })
+  }).then(res => res);

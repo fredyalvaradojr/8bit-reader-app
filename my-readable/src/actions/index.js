@@ -10,7 +10,8 @@ export const POSTED_VOTE = "POSTED_VOTE";
 export const POSTED_VOTE_FAIL = "POSTED_VOTE_FAIL";
 export const POST_ADD = "ADD_POST";
 export const POST_ADD_COMMENT = "ADD_COMMENT_TO_POST";
-export const POST_EDIT = "EDIT_POST";
+export const POST_EDIT = "POST_EDIT";
+export const POST_EDIT_FAIL = "POST_EDIT_FAIL";
 export const POST_EDIT_COMMENT = "EDIT_COMMENT_FROM_POST";
 export const POST_DELETE = "POST_DELETE";
 export const POST_DELETE_COMMENT = "POST_DELETE_COMMENT";
@@ -132,4 +133,17 @@ export function setCurrentView(currentView) {
 
 export function categoryFilterSelected(category) {
   return { type: CATEGORY_SELECTED, category };
+}
+
+export function editPost(props) {
+  // first step to put the new information into the edited post
+  return function(dispatch) {
+    api.editSelectedPost(props).then(res => {
+      if (res.status === 200) {
+        dispatch(fetchResults({ type: POST_EDIT, props }));
+      } else {
+        dispatch(fetchResults({ type: POST_EDIT_FAIL, props }));
+      }
+    });
+  };
 }

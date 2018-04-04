@@ -7,11 +7,24 @@ const initialState = {
   categories: [],
   currentPost: {},
   currentView: null,
-  categoryFilterSelected: "all"
+  categoryFilterSelected: "all",
+  modalEditStatus: false
 };
 
 function posts(state = initialState.posts, action) {
   switch (action.type) {
+    case actions.POST_EDIT:
+      return [...state].map(post => {
+        if (action.props.postInfoID !== post.id) {
+          return post;
+        } else {
+          return {
+            ...post,
+            title: action.props.postInfoTitle,
+            body: action.props.postInfoBody
+          };
+        }
+      });
     case actions.POST_LOADED_VIA_FILTER:
       return action.filteredCategoryPosts;
     case actions.POSTED_VOTE:
