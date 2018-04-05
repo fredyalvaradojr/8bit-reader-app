@@ -5,7 +5,7 @@ import Post from "../componets/Post";
 import * as actions from "../actions";
 import globalStyles from "../utils/globalStyles";
 import ViewTitle from "./ViewTitle";
-import FilterCategories from "./FilterCategories";
+import PostListTools from "./PostListTools";
 
 const PostListStyles = css`
   border-top: 0.125em dotted ${globalStyles.color.darkGray};
@@ -17,7 +17,7 @@ const PostList = props => {
   return (
     <div>
       <ViewTitle content="The List" />
-      <FilterCategories />
+      <PostListTools />
       <ul className={PostListStyles} data-class="PostListStyles">
         {props.posts.map(post => <Post key={post.id} postContent={post} />)}
       </ul>

@@ -115,6 +115,7 @@ const Post = props => {
                 className={`${article}_comments-icon`}
                 src={CommentsSVG}
                 aria-hidden="true"
+                alt="comment count icon"
               />
               {props.postContent.commentCount}
             </div>
@@ -123,6 +124,7 @@ const Post = props => {
                 className={`${article}_votes-icon`}
                 src={VotesSVG}
                 aria-hidden="true"
+                alt="vote score icon"
               />
               {props.postContent.voteScore}
             </div>

@@ -80,7 +80,11 @@ class PostTools extends Component {
           Edit
         </button>
         {this.state.activeEditModal ? (
-          <Modal {...this.props} closeAction={e => this.toggleEditModal(e)} />
+          <Modal
+            {...this.props}
+            closeAction={e => this.toggleEditModal(e)}
+            modalType="edit"
+          />
         ) : (
           ""
         )}

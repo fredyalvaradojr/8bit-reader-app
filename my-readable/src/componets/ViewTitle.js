@@ -5,7 +5,7 @@ import globalStyles from "../utils/globalStyles";
 const viewTitle = css`
   font-family: "Erica One", cursive;
   text-align center;
-  font-size: 2.7em;
+  font-size: 2.5em;
   font-weight: normal;
   color: ${globalStyles.color.darkGray};
   padding: 0.2em 0 0.28em;

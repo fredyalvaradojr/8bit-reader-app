@@ -58,3 +58,17 @@ export const editSelectedPost = props =>
       body: props.postInfoBody
     })
   }).then(res => res);
+
+export const addNewPost = props =>
+  fetch(`${apiServerUrl}/posts`, {
+    headers,
+    method: "POST",
+    body: JSON.stringify({
+      id: props.UUID,
+      timestamp: props.timestamp,
+      title: props.newPostTitle,
+      body: props.newPostbody,
+      author: props.newPostAuthor,
+      category: props.newPostCategory
+    })
+  }).then(res => res);

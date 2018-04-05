@@ -39,6 +39,21 @@ function posts(state = initialState.posts, action) {
           return { ...post, voteScore: action.voteScore };
         }
       });
+    case actions.POST_ADDED:
+      let array = [...state];
+      array.push({
+        id: action.props.UUID,
+        timestamp: action.props.timestamp,
+        title: action.props.newPostTitle,
+        body: action.props.newPostBody,
+        author: action.props.newPostAuthor,
+        category: action.props.newPostCategory,
+        commentCount: 0,
+        comments: [],
+        deleted: false,
+        voteScore: 0
+      });
+      return array;
     case actions.POST_LOADED:
       return action.posts;
     default:

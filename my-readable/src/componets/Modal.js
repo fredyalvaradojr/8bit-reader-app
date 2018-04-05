@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { css } from "emotion";
-import { editPost } from "../actions/index";
+import uniqid from "uniqid";
+import { editPost, addNewPostInfo } from "../actions/index";
 import globalStyles from "../utils/globalStyles";
 import ViewTitle from "./ViewTitle";
 import CloseSVG from "../media/close.svg";
@@ -12,6 +13,7 @@ class Modal extends Component {
     position: fixed;
     width: 100%;
     height: 100%;
+    overflow: scroll;
     top: 0;
     left: 0;
     background: ${globalStyles.color.white};
@@ -66,41 +68,164 @@ class Modal extends Component {
   state = {
     postInfoTitle: "",
     postInfoID: "",
-    postInfoBody: ""
+    postInfoBody: "",
+    modalType: "",
+    newPostId: "",
+    newPostTitle: "",
+    newPostBody: "",
+    newPostAuthor: "",
+    newPostCategory: ""
   };
 
   componentDidMount() {
-    console.debug(this.props);
-    const thisPostInfo = this.props.allPosts.filter(post => {
-      if (post.id === this.props.postId) {
-        console.debug("return post: ", post);
-        return post;
+    switch (this.props.modalType) {
+      case "new": {
+        // also set state for newPostUUID and newPostTimestamp
+        this.setState({ modalType: this.props.modalType });
+        break;
       }
-    });
-    this.setState({
-      postInfoTitle: thisPostInfo[0].title,
-      postInfoID: thisPostInfo[0].id,
-      postInfoBody: thisPostInfo[0].body
-    });
+      case "edit": {
+        const thisPostInfo = this.props.allPosts.filter(
+          post => post.id === this.props.postId
+        );
+        this.setState({
+          modalType: this.props.modalType,
+          postInfoTitle: thisPostInfo[0].title,
+          postInfoID: thisPostInfo[0].id,
+          postInfoBody: thisPostInfo[0].body
+        });
+        break;
+      }
+      default: {
+      }
+    }
   }
 
   handleModalEdits = e => {
-    console.debug(
-      "handleModalEdits",
-      this.state.postInfoID,
-      this.state.postInfoTitle,
-      this.state.postInfoBody
-    );
     // dispatch action to update post information
     this.props.editThisPostInfo(this.state);
     // on complete set modal state false
     e.preventDefault();
   };
+
+  handleNewPost = e => {
+    this.props.addNewPostInfo({
+      newPostTitle: this.state.newPostTitle,
+      newPostBody: this.state.newPostBody,
+      newPostAuthor: this.state.newPostAuthor,
+      newPostCategory: this.state.newPostCategory,
+      UUID: uniqid(),
+      timestamp: Date.now()
+    });
+    e.preventDefault();
+  };
+
   handleModalInputChange = e => {
     this.setState({ [e.currentTarget.id]: e.currentTarget.value });
   };
 
-  render() {
+  setModalContent = () => {
+    if (this.state.modalType === "new") {
+      return (
+        <div className={this.ModalStyles} data-class="this.ModalStyles">
+          <div className={`${this.ModalStyles}_container`}>
+            <div className={`${this.ModalStyles}_header`}>
+              <button
+                className={`${this.ModalStyles}_close-btn`}
+                onClick={e => this.props.closeAction(e)}
+              >
+                <img
+                  src={CloseSVG}
+                  className={`${this.ModalStyles}_close-icon`}
+                  alt="Close Modal"
+                  aria-hidden="true"
+                />
+                <span className="sr-only">Close Modal</span>
+              </button>
+              <ViewTitle content="Add A New Post" />
+              <p>New post instructions:</p>
+            </div>
+            <div className={`${this.ModalStyles}_body`}>
+              <form onSubmit={e => this.handleNewPost(e)}>
+                <ul>
+                  <li>
+                    <label
+                      className={`${this.ModalStyles}_label`}
+                      htmlFor="newPostTitle"
+                    >
+                      Title
+                    </label>
+                    <input
+                      className={`${this.ModalStyles}_editable-input`}
+                      value={this.state.newPostTitle}
+                      onChange={e => this.handleModalInputChange(e)}
+                      id="newPostTitle"
+                    />
+                  </li>
+                  <li>
+                    <label
+                      className={`${this.ModalStyles}_label`}
+                      htmlFor="newPostbody"
+                    >
+                      Body
+                    </label>
+                    <textarea
+                      className={`${this.ModalStyles}_editable-input`}
+                      value={this.state.newPostbody}
+                      onChange={e => this.handleModalInputChange(e)}
+                      id="newPostbody"
+                    />
+                  </li>
+                  <li>
+                    <label
+                      className={`${this.ModalStyles}_label`}
+                      htmlFor="newPostAuthor"
+                    >
+                      Author
+                    </label>
+                    <input
+                      className={`${this.ModalStyles}_editable-input`}
+                      value={this.state.newPostAuthor}
+                      onChange={e => this.handleModalInputChange(e)}
+                      id="newPostAuthor"
+                    />
+                  </li>
+                  <li>
+                    <label
+                      className={`${this.ModalStyles}_label`}
+                      htmlFor="newPostCategory"
+                    >
+                      Select a Category
+                    </label>
+                    <select
+                      id="newPostCategory"
+                      className={`${this.ModalStyles}_filter-select`}
+                      value={this.state.newPostCategory}
+                      onChange={e => this.handleModalInputChange(e)}
+                    >
+                      <option value="-">-</option>
+                      {this.props.allCategories.map(category => (
+                        <option key={category.name} value={category.path}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </select>
+                  </li>
+                  <li className={`${this.ModalStyles}_li-submit`}>
+                    <input
+                      className={`${this.ModalStyles}_submit-btn`}
+                      type="submit"
+                      value="Submit"
+                    />
+                  </li>
+                </ul>
+              </form>
+            </div>
+            <div className={`${this.ModalStyles}_footer`} />
+          </div>
+        </div>
+      );
+    }
     return (
       <div className={this.ModalStyles} data-class="this.ModalStyles">
         <div className={`${this.ModalStyles}_container`}>
@@ -164,12 +289,20 @@ class Modal extends Component {
         </div>
       </div>
     );
+  };
+
+  render() {
+    const modalContent = this.setModalContent();
+
+    return <div>{modalContent}</div>;
   }
 }
 
 const mapStateToProps = state => {
+  console.debug(state);
   return {
-    allPosts: state.posts
+    allPosts: state.posts,
+    allCategories: state.categories
   };
 };
 
@@ -177,6 +310,9 @@ const mapDispatchToProps = dispatch => {
   return {
     editThisPostInfo: state => {
       dispatch(editPost(state));
+    },
+    addNewPostInfo: state => {
+      dispatch(addNewPostInfo(state));
     }
   };
 };
