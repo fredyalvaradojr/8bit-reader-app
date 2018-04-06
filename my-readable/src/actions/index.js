@@ -17,13 +17,11 @@ export const POST_DELETE = "POST_DELETE";
 export const POST_DELETE_FAIL = "POST_DELETE_FAIL";
 export const POST_DELETE_COMMENT = "POST_DELETE_COMMENT";
 export const POST_ADDED = "POST_ADDED";
+export const POST_SORT = "POST_SORT";
+export const POST_ACTIVE_SORT = "POST_ACTIVE_SORT";
 export const POST_ADDED_FAIL = "POST_ADDED_FAIL";
 export const CURRENT_LOCATION_SET = "CURRENT_LOCATION_SET";
 export const SET_CURRENT_VIEW = "SET_CURRENT_VIEW";
-
-export function loadPostsSuccess(posts) {
-  return { type: POST_LOADED, posts };
-}
 
 export function loadPostSuccess(currentPost) {
   return { type: POST_SINGLE_LOADED, currentPost };
@@ -60,7 +58,7 @@ export function loadPosts() {
         return Promise.all(promises).then(result => result);
       })
       .then(posts => {
-        dispatch(loadPostsSuccess(posts));
+        dispatch(fetchResults({ type: POST_LOADED, posts }));
       });
   };
 }
@@ -173,4 +171,12 @@ export function deletePost(props) {
       }
     });
   };
+}
+
+export function activeSort(props) {
+  return { type: POST_ACTIVE_SORT, props };
+}
+
+export function sortPosts(props) {
+  return { type: POST_SORT, props };
 }

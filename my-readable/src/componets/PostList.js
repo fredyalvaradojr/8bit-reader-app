@@ -26,7 +26,6 @@ const PostList = props => {
 };
 
 function mapStateToProps(state, ownProps) {
-  console.debug(state);
   return {
     posts: state.posts
   };

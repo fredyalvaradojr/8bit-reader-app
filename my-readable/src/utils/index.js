@@ -17,7 +17,7 @@ export const editPostTimestamp = t => {
     "Nov",
     "Dec"
   ];
-  const date = new Date(t * 1000);
+  const date = new Date(t);
   return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 

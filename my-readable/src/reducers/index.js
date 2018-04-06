@@ -8,11 +8,52 @@ const initialState = {
   currentPost: {},
   currentView: null,
   categoryFilterSelected: "all",
-  modalEditStatus: false
+  modalEditStatus: false,
+  activeSort: "dateNew"
 };
 
-function posts(state = initialState.posts, action) {
+const sortedPostList = (sortState, sort) => {
+  console.debug(sortState, sort);
+  switch (sort) {
+    case "dateNew": {
+      return sortState.sort((a, b) => b.timestamp - a.timestamp);
+    }
+    case "dateOld": {
+      return sortState.sort((a, b) => a.timestamp - b.timestamp);
+    }
+    case "scoreHighest": {
+      return sortState.sort((a, b) => b.voteScore - a.voteScore);
+    }
+    case "scoreLowest": {
+      return sortState.sort((a, b) => a.voteScore - b.voteScore);
+    }
+    case "alpha": {
+      return sortState.sort((a, b) => {
+        var nameA = a.title.toUpperCase();
+        var nameB = b.title.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    default: {
+      return sortState;
+    }
+  }
+};
+
+function posts(
+  state = initialState.posts,
+  action,
+  activeSort = initialState.activeSort
+) {
   switch (action.type) {
+    case actions.POST_SORT:
+      return sortedPostList([...state], action.props);
     case actions.POST_DELETE:
       let deleteArray = [...state];
       console.debug("post_del: ", deleteArray, action.props);
@@ -59,9 +100,9 @@ function posts(state = initialState.posts, action) {
         deleted: false,
         voteScore: 0
       });
-      return array;
+      return sortedPostList(array, activeSort);
     case actions.POST_LOADED:
-      return action.posts;
+      return sortedPostList(action.posts, "dateNew");
     default:
       return state;
   }
@@ -108,10 +149,21 @@ function categoryFilterSelected(
   }
 }
 
+function activeSort(state = initialState.activeSort, action) {
+  console.debug(action);
+  switch (action.type) {
+    case actions.POST_ACTIVE_SORT:
+      return action.props;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   posts,
   currentPost,
   currentView,
   categories,
-  categoryFilterSelected
+  categoryFilterSelected,
+  activeSort
 });
