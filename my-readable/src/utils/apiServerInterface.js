@@ -72,3 +72,9 @@ export const addNewPost = props =>
       category: props.newPostCategory
     })
   }).then(res => res);
+
+export const deletePost = props =>
+  fetch(`${apiServerUrl}/posts/${props}`, {
+    headers,
+    method: "DELETE"
+  }).then(res => res);

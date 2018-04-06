@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { css } from "emotion";
-import { postVote } from "../actions/index";
+import { postVote, deletePost } from "../actions/index";
 import UpvoteSVG from "../media/upvote.svg";
 import DownvoteSVG from "../media/downvote.svg";
 import Modal from "./Modal";
@@ -34,6 +34,12 @@ class PostTools extends Component {
     this.setState({
       activeEditModal: this.state.activeEditModal ? false : true
     });
+  };
+
+  thisDeletePostConfirmation = (e, postId) => {
+    // setup delete modal, yes dispatch event, no, just close modal
+    console.debug(e.currentTarget, postId);
+    this.props.thisDeletePost(postId);
   };
 
   render() {
@@ -88,7 +94,12 @@ class PostTools extends Component {
         ) : (
           ""
         )}
-        <span className="post-tools_delete">Delete</span>
+        <button
+          className="post-tools_delete"
+          onClick={e => this.thisDeletePostConfirmation(e, this.props.postId)}
+        >
+          Delete
+        </button>
       </div>
     );
   }
@@ -105,6 +116,9 @@ const mapDispatchToProps = dispatch => {
   return {
     voting: (postId, vote, allPosts) => {
       dispatch(postVote(postId, vote, allPosts));
+    },
+    thisDeletePost: postId => {
+      dispatch(deletePost(postId));
     }
   };
 };

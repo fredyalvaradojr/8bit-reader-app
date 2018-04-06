@@ -14,9 +14,10 @@ export const POST_EDIT = "POST_EDIT";
 export const POST_EDIT_FAIL = "POST_EDIT_FAIL";
 export const POST_EDIT_COMMENT = "EDIT_COMMENT_FROM_POST";
 export const POST_DELETE = "POST_DELETE";
+export const POST_DELETE_FAIL = "POST_DELETE_FAIL";
 export const POST_DELETE_COMMENT = "POST_DELETE_COMMENT";
 export const POST_ADDED = "POST_ADDED";
-export const POST_ADDED_FAIL = "POST_ADDED";
+export const POST_ADDED_FAIL = "POST_ADDED_FAIL";
 export const CURRENT_LOCATION_SET = "CURRENT_LOCATION_SET";
 export const SET_CURRENT_VIEW = "SET_CURRENT_VIEW";
 
@@ -157,6 +158,18 @@ export function addNewPostInfo(props) {
         dispatch(fetchResults({ type: POST_ADDED, props }));
       } else {
         dispatch(fetchResults({ type: POST_ADDED_FAIL, props }));
+      }
+    });
+  };
+}
+
+export function deletePost(props) {
+  return function(dispatch) {
+    api.deletePost(props).then(res => {
+      if (res.status === 200) {
+        dispatch(fetchResults({ type: POST_DELETE, props }));
+      } else {
+        dispatch(fetchResults({ type: POST_DELETE_FAIL, props }));
       }
     });
   };

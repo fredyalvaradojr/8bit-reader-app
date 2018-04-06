@@ -13,6 +13,12 @@ const initialState = {
 
 function posts(state = initialState.posts, action) {
   switch (action.type) {
+    case actions.POST_DELETE:
+      let deleteArray = [...state];
+      console.debug("post_del: ", deleteArray, action.props);
+      deleteArray = deleteArray.filter(post => post.id !== action.props);
+      console.debug("post_del: ", deleteArray, action.props);
+      return deleteArray;
     case actions.POST_EDIT:
       return [...state].map(post => {
         if (action.props.postInfoID !== post.id) {
