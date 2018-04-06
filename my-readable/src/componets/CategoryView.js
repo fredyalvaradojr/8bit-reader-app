@@ -5,7 +5,7 @@ import Post from "../componets/Post";
 import * as actions from "../actions";
 import globalStyles from "../utils/globalStyles";
 import ViewTitle from "./ViewTitle";
-import FilterCategories from "./FilterCategories";
+import PostListTools from "./PostListTools";
 
 const PostListStyles = css`
   border-top: 0.125em dotted ${globalStyles.color.darkGray};
@@ -15,7 +15,6 @@ const PostListStyles = css`
 class PostList extends Component {
   constructor(props) {
     super(props);
-    console.debug(this.props.categoryFilterSelectedValue);
     this.props.loadFilterCategory(this.props.categoryFilterSelectedValue);
   }
 
@@ -25,7 +24,7 @@ class PostList extends Component {
         <ViewTitle
           content={`The ${this.props.categoryFilterSelectedValue} Category`}
         />
-        <FilterCategories />
+        <PostListTools />
         <ul className={PostListStyles} data-class="PostListStyles">
           {this.props.posts.length > 0 ? (
             this.props.posts.map(post => (
