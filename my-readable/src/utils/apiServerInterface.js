@@ -49,6 +49,13 @@ export const postNewVote = (postId, vote) =>
     body: JSON.stringify({ option: vote })
   }).then(res => res);
 
+export const postNewCommentVote = (commentId, vote) =>
+  fetch(`${apiServerUrl}/comments/${commentId}`, {
+    headers,
+    method: "POST",
+    body: JSON.stringify({ option: vote })
+  }).then(res => res);
+
 export const editSelectedPost = props =>
   fetch(`${apiServerUrl}/posts/${props.postInfoID}`, {
     headers,
@@ -88,6 +95,9 @@ export const publishComment = props =>
       timestamp: props.timestamp,
       body: props.newCommentBody,
       author: props.newCommentAuthor,
-      parentId: props.newCommentParentID
+      parentId: props.newCommentParentID,
+      voteScore: 0,
+      deleted: false,
+      parentDeleted: false
     })
   }).then(res => res);

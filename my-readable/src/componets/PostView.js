@@ -8,6 +8,7 @@ import Breadcrumb from "./Breadcrumb";
 import { hexToRGB } from "../utils/index";
 import ViewTitle from "./ViewTitle";
 import { publishComment } from "../actions/index";
+import CommentView from "./CommentView";
 
 const article = css`
   &_header {
@@ -145,7 +146,9 @@ class PostView extends Component {
               )}
               <ul>
                 {this.props.currentPost.comments.map(comment => (
-                  <li key={comment.id}>{comment.body}</li>
+                  <li key={comment.id}>
+                    <CommentView commentInfo={comment} />
+                  </li>
                 ))}
               </ul>
             </div>

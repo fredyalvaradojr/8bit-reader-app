@@ -123,6 +123,20 @@ function currentPost(state = initialState.currentPost, action) {
         voteScore: 0
       });
       return obj;
+    case actions.POSTED_COMMENT_VOTE:
+      const postedCommentVoteObj = { ...state };
+      postedCommentVoteObj["comments"].map(comment => {
+        if (action.commentId !== comment.id) {
+          return comment;
+        } else {
+          comment["voteScore"] =
+            action.voteScore === "upVote"
+              ? comment.voteScore + 1
+              : comment.voteScore - 1;
+          return comment;
+        }
+      });
+      return postedCommentVoteObj;
     case actions.POST_SINGLE_LOADED:
       return action.currentPost;
     case actions.CURRENT_LOCATION_SET:

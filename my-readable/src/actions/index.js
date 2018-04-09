@@ -10,6 +10,8 @@ export const COMMENT_ADD_FAIL = "COMMENT_ADD_FAIL";
 export const CATEGORIES_LOADED = "CATEGORIES_LOADED";
 export const POSTED_VOTE = "POSTED_VOTE";
 export const POSTED_VOTE_FAIL = "POSTED_VOTE_FAIL";
+export const POSTED_COMMENT_VOTE = "POSTED_COMMENT_VOTE";
+export const POSTED_COMMENT_VOTE_FAIL = "POSTED_COMMENT_VOTE_FAIL";
 export const POST_ADD = "ADD_POST";
 export const POST_ADD_COMMENT = "ADD_COMMENT_TO_POST";
 export const POST_EDIT = "POST_EDIT";
@@ -183,6 +185,24 @@ export function publishComment(props) {
         dispatch(fetchResults({ type: COMMENT_ADD, props }));
       } else {
         dispatch(fetchResults({ type: COMMENT_ADD_FAIL, props }));
+      }
+    });
+  };
+}
+
+//postCommentVote
+export function postCommentVote(commentId, voteScore, currentPost) {
+  console.debug("action vote: ", commentId, voteScore, currentPost);
+  return function(dispatch) {
+    api.postNewCommentVote(commentId, voteScore).then(res => {
+      if (res.status === 200) {
+        dispatch(
+          fetchResults({ type: POSTED_COMMENT_VOTE, voteScore, commentId })
+        );
+      } else {
+        dispatch(
+          fetchResults({ type: POSTED_COMMENT_VOTE_FAIL, voteScore, commentId })
+        );
       }
     });
   };
