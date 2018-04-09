@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { css } from "emotion";
 import { NavLink } from "react-router-dom";
-import { loadallCategories } from "../actions";
+import { loadallCategories, setCurrentView } from "../actions";
 import MyReadableLogo from "../media/logo.svg";
 
 class AppHeader extends Component {
@@ -27,7 +27,12 @@ class AppHeader extends Component {
     return (
       <div className={this.appHeader} data-class="appHeader">
         <div className={`${this.appHeader}_logo-container`}>
-          <NavLink to="/">
+          <NavLink
+            to="/"
+            onClick={() => {
+              this.props.setCurrentView("default");
+            }}
+          >
             <img
               src={MyReadableLogo}
               className={`${this.appHeader}_logo`}
@@ -49,7 +54,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  dispatchLoadAllCategories: dispatch(loadallCategories())
+  dispatchLoadAllCategories: dispatch(loadallCategories()),
+  setCurrentView: view => {
+    dispatch(setCurrentView(view));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppHeader);
