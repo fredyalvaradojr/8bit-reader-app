@@ -111,3 +111,9 @@ export const editComment = props =>
       body: props.editCommentBody
     })
   }).then(res => res);
+
+export const deleteComment = props =>
+  fetch(`${apiServerUrl}/comments/${props}`, {
+    headers,
+    method: "DELETE"
+  }).then(res => res);

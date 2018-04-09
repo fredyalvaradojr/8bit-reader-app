@@ -56,9 +56,7 @@ function posts(
       return sortedPostList([...state], action.props);
     case actions.POST_DELETE:
       let deleteArray = [...state];
-      console.debug("post_del: ", deleteArray, action.props);
       deleteArray = deleteArray.filter(post => post.id !== action.props);
-      console.debug("post_del: ", deleteArray, action.props);
       return deleteArray;
     case actions.POST_EDIT:
       return [...state].map(post => {
@@ -110,6 +108,12 @@ function posts(
 
 function currentPost(state = initialState.currentPost, action) {
   switch (action.type) {
+    case actions.POSTED_COMMENT_DELETE:
+      const postedCommentDeleteObj = { ...state };
+      postedCommentDeleteObj["comments"] = postedCommentDeleteObj[
+        "comments"
+      ].filter(comment => comment.id !== action.props);
+      return postedCommentDeleteObj;
     case actions.POSTED_COMMENT_EDIT:
       const postedCommentEditObj = { ...state };
       postedCommentEditObj["comments"].map(comment => {

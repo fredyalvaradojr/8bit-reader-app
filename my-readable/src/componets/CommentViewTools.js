@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { css } from "emotion";
-import { postCommentVote, deletePost } from "../actions/index";
+import { postCommentVote, deleteComment } from "../actions/index";
 import UpvoteSVG from "../media/upvote.svg";
 import DownvoteSVG from "../media/downvote.svg";
 import Modal from "./Modal";
@@ -36,10 +36,10 @@ class CommentViewTools extends Component {
     });
   };
 
-  thisDeletePostConfirmation = (e, postId) => {
+  thisDeleteCommentConfirmation = (e, commentId) => {
     // setup delete modal, yes dispatch event, no, just close modal
-    console.debug(e.currentTarget, postId);
-    this.props.thisDeletePost(postId);
+    console.debug(e.currentTarget, commentId);
+    this.props.thisDeleteComment(commentId);
   };
 
   render() {
@@ -104,7 +104,9 @@ class CommentViewTools extends Component {
         )}
         <button
           className="post-tools_delete"
-          onClick={e => this.thisDeletePostConfirmation(e, this.props.postId)}
+          onClick={e =>
+            this.thisDeleteCommentConfirmation(e, this.props.commentId)
+          }
         >
           Delete
         </button>
@@ -125,8 +127,8 @@ const mapDispatchToProps = dispatch => {
     voting: (commentId, vote, currentPost) => {
       dispatch(postCommentVote(commentId, vote, currentPost));
     },
-    thisDeletePost: postId => {
-      dispatch(deletePost(postId));
+    thisDeleteComment: commentID => {
+      dispatch(deleteComment(commentID));
     }
   };
 };

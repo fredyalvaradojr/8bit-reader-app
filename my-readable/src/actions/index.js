@@ -14,6 +14,8 @@ export const POSTED_COMMENT_EDIT = "POSTED_COMMENT_EDIT";
 export const POSTED_COMMENT_EDIT_FAIL = "POSTED_COMMENT_EDIT";
 export const POSTED_COMMENT_VOTE = "POSTED_COMMENT_VOTE";
 export const POSTED_COMMENT_VOTE_FAIL = "POSTED_COMMENT_VOTE_FAIL";
+export const POSTED_COMMENT_DELETE = "POSTED_COMMENT_DELETE";
+export const POSTED_COMMENT_DELETE_FAIL = "POSTED_COMMENT_DELETE_FAIL";
 export const POST_ADD = "ADD_POST";
 export const POST_ADD_COMMENT = "ADD_COMMENT_TO_POST";
 export const POST_EDIT = "POST_EDIT";
@@ -215,6 +217,19 @@ export function editComment(props) {
         dispatch(fetchResults({ type: POSTED_COMMENT_EDIT, props }));
       } else {
         dispatch(fetchResults({ type: POSTED_COMMENT_EDIT_FAIL, props }));
+      }
+    });
+  };
+}
+
+export function deleteComment(props) {
+  console.debug(props);
+  return function(dispatch) {
+    api.deleteComment(props).then(res => {
+      if (res.status === 200) {
+        dispatch(fetchResults({ type: POSTED_COMMENT_DELETE, props }));
+      } else {
+        dispatch(fetchResults({ type: POSTED_COMMENT_DELETE_FAIL, props }));
       }
     });
   };
