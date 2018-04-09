@@ -89,7 +89,7 @@ const Post = props => {
               activeClassName="active"
               className={`${article}_header_link`}
               exact
-              to={`/post/${props.postContent.category}/${props.postContent.id}`}
+              to={`/${props.postContent.category}/${props.postContent.id}`}
               onClick={() => {
                 props.setCurrentPostDispatch(props.postContent);
                 props.setCurrentView("PostView");

@@ -68,7 +68,7 @@ class FilterCategories extends Component {
       this.props.setCurrentView("CategoryView");
       this.props.categoryFilterSelected(e.currentTarget.value);
       this.props.loadFilterCategory(e.currentTarget.value);
-      this.props.history.push(`/category/${e.currentTarget.value}`);
+      this.props.history.push(`/${e.currentTarget.value}`);
     } else {
       this.setState({ selectStatus: e.currentTarget.value });
       this.props.setCurrentView("default");

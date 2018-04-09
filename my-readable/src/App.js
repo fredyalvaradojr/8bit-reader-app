@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Switch, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { css } from "emotion";
 import globalStyles from "./utils/globalStyles";
 import * as actions from "./actions/index";
@@ -58,9 +58,9 @@ class App extends Component {
     return (
       <div className={this.App} data-class="App">
         <AppHeader />
-        <Switch>
-          <Route key={pathName} path={pathName} component={pathComponent} />
-        </Switch>
+        <Route exact path="/" component={PostList} />
+        <Route exact path="/:category/:post_id" component={PostView} />
+        <Route exact path="/:category" component={CategoryView} />
       </div>
     );
   }
