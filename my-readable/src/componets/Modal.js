@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { css } from "emotion";
 import uniqid from "uniqid";
-import { editPost, addNewPostInfo } from "../actions/index";
+import { editPost, addNewPostInfo, editComment } from "../actions/index";
 import globalStyles from "../utils/globalStyles";
 import ViewTitle from "./ViewTitle";
 import CloseSVG from "../media/close.svg";
@@ -74,10 +74,13 @@ class Modal extends Component {
     newPostTitle: "",
     newPostBody: "",
     newPostAuthor: "",
-    newPostCategory: ""
+    newPostCategory: "",
+    editCommentBody: "",
+    editCommentID: ""
   };
 
   componentDidMount() {
+    console.debug(this.props);
     switch (this.props.modalType) {
       case "new": {
         // also set state for newPostUUID and newPostTimestamp
@@ -93,6 +96,18 @@ class Modal extends Component {
           postInfoTitle: thisPostInfo[0].title,
           postInfoID: thisPostInfo[0].id,
           postInfoBody: thisPostInfo[0].body
+        });
+        break;
+      }
+      case "edit-comment": {
+        const thisComment = this.props.currentPost["comments"].filter(
+          comment => comment.id === this.props.commentId
+        );
+        console.debug("thisComment: ", thisComment[0].body);
+        this.setState({
+          modalType: this.props.modalType,
+          editCommentBody: thisComment[0].body,
+          editCommentID: thisComment[0].id
         });
         break;
       }
@@ -120,11 +135,21 @@ class Modal extends Component {
     e.preventDefault();
   };
 
+  handleEditComment = e => {
+    this.props.handleEditComment({
+      editCommentBody: this.state.editCommentBody,
+      editCommentID: this.state.editCommentID,
+      timestamp: Date.now()
+    });
+    e.preventDefault();
+  };
+
   handleModalInputChange = e => {
     this.setState({ [e.currentTarget.id]: e.currentTarget.value });
   };
 
   setModalContent = () => {
+    console.debug(this.state.modalType);
     if (this.state.modalType === "new") {
       return (
         <div className={this.ModalStyles} data-class="this.ModalStyles">
@@ -226,6 +251,57 @@ class Modal extends Component {
         </div>
       );
     }
+    if (this.state.modalType === "edit-comment") {
+      return (
+        <div className={this.ModalStyles} data-class="this.ModalStyles">
+          <div className={`${this.ModalStyles}_container`}>
+            <div className={`${this.ModalStyles}_header`}>
+              <button
+                className={`${this.ModalStyles}_close-btn`}
+                onClick={e => this.props.closeAction(e)}
+              >
+                <img
+                  src={CloseSVG}
+                  className={`${this.ModalStyles}_close-icon`}
+                  alt="Close Modal"
+                  aria-hidden="true"
+                />
+                <span className="sr-only">Close Modal</span>
+              </button>
+              <ViewTitle content="Edit Comment" />
+            </div>
+            <div className={`${this.ModalStyles}_body`}>
+              <form onSubmit={e => this.handleEditComment(e)}>
+                <ul>
+                  <li>
+                    <label
+                      className={`${this.ModalStyles}_label`}
+                      htmlFor="editCommentBody"
+                    >
+                      Body
+                    </label>
+                    <textarea
+                      className={`${this.ModalStyles}_editable-input`}
+                      value={this.state.editCommentBody}
+                      onChange={e => this.handleModalInputChange(e)}
+                      id="editCommentBody"
+                    />
+                  </li>
+                  <li className={`${this.ModalStyles}_li-submit`}>
+                    <input
+                      className={`${this.ModalStyles}_submit-btn`}
+                      type="submit"
+                      value="Submit"
+                    />
+                  </li>
+                </ul>
+              </form>
+            </div>
+            <div className={`${this.ModalStyles}_footer`} />
+          </div>
+        </div>
+      );
+    }
     return (
       <div className={this.ModalStyles} data-class="this.ModalStyles">
         <div className={`${this.ModalStyles}_container`}>
@@ -299,10 +375,10 @@ class Modal extends Component {
 }
 
 const mapStateToProps = state => {
-  console.debug(state);
   return {
     allPosts: state.posts,
-    allCategories: state.categories
+    allCategories: state.categories,
+    currentPost: state.currentPost
   };
 };
 
@@ -313,6 +389,9 @@ const mapDispatchToProps = dispatch => {
     },
     addNewPostInfo: state => {
       dispatch(addNewPostInfo(state));
+    },
+    handleEditComment: state => {
+      dispatch(editComment(state));
     }
   };
 };

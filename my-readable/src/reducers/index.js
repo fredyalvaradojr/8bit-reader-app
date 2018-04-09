@@ -110,6 +110,18 @@ function posts(
 
 function currentPost(state = initialState.currentPost, action) {
   switch (action.type) {
+    case actions.POSTED_COMMENT_EDIT:
+      const postedCommentEditObj = { ...state };
+      postedCommentEditObj["comments"].map(comment => {
+        if (action.props.editCommentID !== comment.id) {
+          return comment;
+        } else {
+          comment["body"] = action.props.editCommentBody;
+          comment["timestamp"] = action.props.timestamp;
+          return comment;
+        }
+      });
+      return postedCommentEditObj;
     case actions.COMMENT_ADD:
       const obj = { ...state };
       obj["comments"].push({

@@ -101,3 +101,13 @@ export const publishComment = props =>
       parentDeleted: false
     })
   }).then(res => res);
+
+export const editComment = props =>
+  fetch(`${apiServerUrl}/comments/${props.editCommentID}`, {
+    headers,
+    method: "PUT",
+    body: JSON.stringify({
+      timestamp: props.timestamp,
+      body: props.editCommentBody
+    })
+  }).then(res => res);

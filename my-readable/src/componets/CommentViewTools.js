@@ -97,6 +97,7 @@ class CommentViewTools extends Component {
             {...this.props}
             closeAction={e => this.toggleEditModal(e)}
             modalType="edit-comment"
+            commentId={this.props.commentId}
           />
         ) : (
           ""
