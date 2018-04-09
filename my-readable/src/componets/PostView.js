@@ -1,10 +1,13 @@
-import React from "react";
+import React, { Component } from "react";
 import { css } from "emotion";
 import { connect } from "react-redux";
+import uniqid from "uniqid";
 import globalStyles from "../utils/globalStyles";
 import PostTools from "./PostTools";
-import BackButton from "./BackButton";
+import Breadcrumb from "./Breadcrumb";
 import { hexToRGB } from "../utils/index";
+import ViewTitle from "./ViewTitle";
+import { publishComment } from "../actions/index";
 
 const article = css`
   &_header {
@@ -29,45 +32,146 @@ const article = css`
   }
 `;
 
-const PostView = props => {
-  return (
-    <div className="post-view">
-      <BackButton backToTitle="List" backTo="/" viewTo="default" />
-      <article className={article}>
-        <header>
-          <h1 className={`${article}_header`}>{props.currentPost.title}</h1>
-        </header>
-        <div className={`${article}_meta`}>
-          <div className={`${article}_author`}>{props.currentPost.author}</div>
-          <div className={`${article}_number-comments`}>
-            {props.currentPost.commentCount}
-          </div>
-        </div>
-        <div className={`${article}_body`}>{props.currentPost.body}</div>
-        <PostTools />
-        {props.currentPost.comments && props.currentPost.comments.length > 0 ? (
-          <div className={`${article}_comments`}>
-            <h2>Comments</h2>
-            <ul>
-              {props.currentPost.comments.map(comment => (
-                <li key={comment.id}>{comment.body}</li>
-              ))}
-            </ul>
-          </div>
-        ) : (
-          <div className={`${article}_comments`}>
-            <h2>This post needs your feedback</h2>
-          </div>
-        )}
-      </article>
-    </div>
-  );
-};
+class PostView extends Component {
+  state = {
+    commentsFormStatus: false,
+    newCommentBody: "",
+    newCommentAuthor: ""
+  };
 
-function mapStateToProps(state, ownProps) {
+  toggleCommentForm = e => {
+    this.setState({
+      commentsFormStatus: this.state.commentsFormStatus ? false : true
+    });
+  };
+
+  handleModalInputChange = e => {
+    this.setState({ [e.currentTarget.id]: e.currentTarget.value });
+  };
+
+  handleNewComment = (e, id) => {
+    this.props.thisPublishComment({
+      newCommentParentID: id,
+      newCommentBody: this.state.newCommentBody,
+      newCommentAuthor: this.state.newCommentAuthor,
+      UUID: uniqid(),
+      timestamp: Date.now()
+    });
+    e.preventDefault();
+  };
+
+  render() {
+    return (
+      <div className="post-view">
+        <article className={article}>
+          <ViewTitle content={this.props.currentPost.title} />
+          <Breadcrumb backToTitle="List" backTo="/" viewTo="default" />
+          <div className={`${article}_meta`}>
+            <div className={`${article}_author`}>
+              {this.props.currentPost.author}
+            </div>
+            <div className={`${article}_number-comments`}>
+              {this.props.currentPost.commentCount}
+            </div>
+            <div className={`${article}_number-votes`}>
+              {this.props.currentPost.voteScore}
+            </div>
+          </div>
+          <div className={`${article}_body`}>{this.props.currentPost.body}</div>
+          <PostTools />
+          {this.props.currentPost.comments &&
+          this.props.currentPost.comments.length > 0 ? (
+            <div className={`${article}_comments`}>
+              <div className="commentsheader">
+                <h2>Comments</h2>
+                <button onClick={e => this.toggleCommentForm(e)}>
+                  + Comment
+                </button>
+              </div>
+              {this.state.commentsFormStatus ? (
+                <div className="add-comment-form">
+                  <form>
+                    <ul>
+                      <li>
+                        <label
+                          className={`${this.ModalStyles}_label`}
+                          htmlFor="newCommentBody"
+                        >
+                          Body
+                        </label>
+                        <textarea
+                          className={`${this.ModalStyles}_editable-input`}
+                          value={this.state.newCommentBody}
+                          onChange={e => this.handleModalInputChange(e)}
+                          id="newCommentBody"
+                        />
+                      </li>
+                      <li>
+                        <label
+                          className={`${this.ModalStyles}_label`}
+                          htmlFor="newCommentAuthor"
+                        >
+                          Author
+                        </label>
+                        <input
+                          className={`${this.ModalStyles}_editable-input`}
+                          value={this.state.newCommentAuthor}
+                          onChange={e => this.handleModalInputChange(e)}
+                          id="newCommentAuthor"
+                        />
+                      </li>
+                      <li>
+                        <div className="add-comment-form_actions">
+                          <button onClick={e => this.toggleCommentForm(e)}>
+                            Cancel
+                          </button>
+                          <button
+                            onClick={e =>
+                              this.handleNewComment(
+                                e,
+                                this.props.currentPost.id
+                              )
+                            }
+                          >
+                            Publish
+                          </button>
+                        </div>
+                      </li>
+                    </ul>
+                  </form>
+                </div>
+              ) : (
+                ""
+              )}
+              <ul>
+                {this.props.currentPost.comments.map(comment => (
+                  <li key={comment.id}>{comment.body}</li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <div className={`${article}_comments`}>
+              <h2>This post needs your feedback</h2>
+            </div>
+          )}
+        </article>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = state => {
   return {
     currentPost: state.currentPost
   };
-}
+};
 
-export default connect(mapStateToProps)(PostView);
+const mapDispatchToProps = dispatch => {
+  return {
+    thisPublishComment: comment => {
+      dispatch(publishComment(comment));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostView);

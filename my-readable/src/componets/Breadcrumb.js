@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import * as actions from "../actions/index";
 import globalStyles from "../utils/globalStyles";
 
-const BackButton = props => {
+const Breadcrumb = props => {
   const backTo = css`
     text-align: left;
     color: ${globalStyles.color.black};
@@ -26,18 +26,25 @@ const BackButton = props => {
       color: ${globalStyles.color.black};
     }
   `;
+  const breadcrumbList = window.location.pathname.split("/");
+
   return (
-    <NavLink
-      className={backTo}
-      data-class="backTo"
-      exact
-      to={props.backTo}
-      onClick={() => {
-        props.setCurrentView(props.viewTo);
-      }}
-    >
-      &lt; Return to {props.backToTitle}
-    </NavLink>
+    <div className="BreadcrumbStyles">
+      {breadcrumbList.map(item => {
+        return (
+          <NavLink
+            key={item}
+            exact
+            to={item}
+            onClick={() => {
+              props.setCurrentView(props.viewTo);
+            }}
+          >
+            {item}
+          </NavLink>
+        );
+      })}
+    </div>
   );
 };
 
@@ -47,4 +54,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(null, mapDispatchToProps)(BackButton);
+export default connect(null, mapDispatchToProps)(Breadcrumb);

@@ -78,3 +78,16 @@ export const deletePost = props =>
     headers,
     method: "DELETE"
   }).then(res => res);
+
+export const publishComment = props =>
+  fetch(`${apiServerUrl}/comments`, {
+    headers,
+    method: "POST",
+    body: JSON.stringify({
+      id: props.UUID,
+      timestamp: props.timestamp,
+      body: props.newCommentBody,
+      author: props.newCommentAuthor,
+      parentId: props.newCommentParentID
+    })
+  }).then(res => res);

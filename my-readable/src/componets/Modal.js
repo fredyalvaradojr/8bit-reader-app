@@ -165,15 +165,15 @@ class Modal extends Component {
                   <li>
                     <label
                       className={`${this.ModalStyles}_label`}
-                      htmlFor="newPostbody"
+                      htmlFor="newPostBody"
                     >
                       Body
                     </label>
                     <textarea
                       className={`${this.ModalStyles}_editable-input`}
-                      value={this.state.newPostbody}
+                      value={this.state.newPostBody}
                       onChange={e => this.handleModalInputChange(e)}
-                      id="newPostbody"
+                      id="newPostBody"
                     />
                   </li>
                   <li>

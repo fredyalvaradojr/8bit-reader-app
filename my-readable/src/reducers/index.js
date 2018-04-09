@@ -110,6 +110,19 @@ function posts(
 
 function currentPost(state = initialState.currentPost, action) {
   switch (action.type) {
+    case actions.COMMENT_ADD:
+      const obj = { ...state };
+      obj["comments"].push({
+        author: action.props.newCommentAuthor,
+        body: action.props.newCommentBody,
+        deleted: false,
+        id: action.props.UUID,
+        parentDeleted: false,
+        parentId: action.props.newCommentParentID,
+        timestamp: action.props.timestamp,
+        voteScore: 0
+      });
+      return obj;
     case actions.POST_SINGLE_LOADED:
       return action.currentPost;
     case actions.CURRENT_LOCATION_SET:
