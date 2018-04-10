@@ -19,7 +19,6 @@ class SortCurrentList extends Component {
   };
 
   render() {
-    console.debug("sort state: ", this.state.sort);
     return (
       <div className="SortCurrentListStyles">
         <form>
@@ -50,7 +49,6 @@ class SortCurrentList extends Component {
 }
 
 const mapStateToProps = state => {
-  console.debug("sortCurrentList: ", state);
   return {
     thisActiveSort: state.activeSort
   };

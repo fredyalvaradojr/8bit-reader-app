@@ -8,6 +8,7 @@ import { hexToRGB } from "../utils/index";
 import ViewTitle from "./ViewTitle";
 import CommentView from "./CommentView";
 import CommentsAddForm from "./CommentsAddForm";
+import { loadPost, setCurrentView } from "../actions/index";
 
 const article = css`
   &_header {
@@ -37,6 +38,21 @@ class PostView extends Component {
     commentsFormStatus: false
   };
 
+  constructor(props) {
+    super(props);
+    if (Object.keys(this.props.currentPost).length === 0) {
+      // dispatch load current post, get id from url
+      this.props.thisLoadCurrentPost(this.props.match.params.post_id);
+    }
+    if (!this.props.currentView) {
+      this.props.thisSetCurrentView("PostView");
+    }
+  }
+
+  componentDidMount() {
+    console.debug("PostView Mounted");
+  }
+
   toggleCommentForm = e => {
     this.setState({
       commentsFormStatus: this.state.commentsFormStatus ? false : true
@@ -48,7 +64,12 @@ class PostView extends Component {
       <div className="post-view">
         <article className={article}>
           <ViewTitle content={this.props.currentPost.title} />
-          <Breadcrumb backToTitle="List" backTo="/" viewTo="default" />
+          <Breadcrumb
+            backToTitle="List"
+            backTo="/"
+            viewTo="default"
+            postTitle={this.props.currentPost.title}
+          />
           <div className={`${article}_meta`}>
             <div className={`${article}_author`}>
               {this.props.currentPost.author}
@@ -98,8 +119,20 @@ class PostView extends Component {
 
 const mapStateToProps = state => {
   return {
-    currentPost: state.currentPost
+    currentPost: state.currentPost,
+    currentView: state.currentView
   };
 };
 
-export default connect(mapStateToProps)(PostView);
+const mapDispatchToProps = dispatch => {
+  return {
+    thisLoadCurrentPost: postID => {
+      dispatch(loadPost(postID));
+    },
+    thisSetCurrentView: view => {
+      dispatch(setCurrentView(view));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostView);

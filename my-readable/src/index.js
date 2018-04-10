@@ -31,6 +31,11 @@ injectGlobal`
     font-family: 'Nunito Sans', sans-serif;
   }
 
+  button,
+  select {
+    cursor: pointer;
+  }
+
   h1 {
     font-size: 1.125em;
     margin-bottom: 0.5em;

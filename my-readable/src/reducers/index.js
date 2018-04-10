@@ -70,7 +70,7 @@ function posts(
         }
       });
     case actions.POST_LOADED_VIA_FILTER:
-      return action.filteredCategoryPosts;
+      return action.posts;
     case actions.POSTED_VOTE:
       return [...state].map(post => {
         if (action.postId !== post.id) {

@@ -29,6 +29,7 @@ class AppHeader extends Component {
         <div className={`${this.appHeader}_logo-container`}>
           <NavLink
             to="/"
+            exact
             onClick={() => {
               this.props.setCurrentView("default");
             }}
@@ -47,7 +48,6 @@ class AppHeader extends Component {
 }
 
 const mapStateToProps = state => {
-  console.debug(state);
   return {
     categories: state.categories
   };

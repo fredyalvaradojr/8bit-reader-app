@@ -16,7 +16,18 @@ class CategoryView extends Component {
   constructor(props) {
     super(props);
     this.props.loadFilterCategory(props.match.params.category);
+    if (!this.props.currentView) {
+      this.props.thisSetCurrentView("CategoryView");
+    }
   }
+
+  // componentDidMount() {
+  //   console.debug("CategoryView Mounted");
+  //   console.debug(
+  //     "props.match.params.category: ",
+  //     this.props.match.params.category
+  //   );
+  // }
 
   render() {
     return (
@@ -45,13 +56,17 @@ class CategoryView extends Component {
 function mapStateToProps(state, ownProps) {
   return {
     posts: state.posts,
-    categoryFilterSelectedValue: state.categoryFilterSelected
+    categoryFilterSelectedValue: state.categoryFilterSelected,
+    currentView: state.currentView
   };
 }
 
 const mapDispatchToProps = dispatch => ({
   loadFilterCategory: category => {
     dispatch(actions.loadFilterCategory(category));
+  },
+  thisSetCurrentView: view => {
+    dispatch(actions.setCurrentView(view));
   }
 });
 

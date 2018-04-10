@@ -1,26 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
 import { css } from "emotion";
-import Post from "../componets/Post";
 import * as actions from "../actions";
-import globalStyles from "../utils/globalStyles";
 import ViewTitle from "./ViewTitle";
-import PostListTools from "./PostListTools";
+import FourSVG from "../media/404.svg";
 
-const PostListStyles = css`
-  border-top: 0.125em dotted ${globalStyles.color.darkGray};
-  padding-top: 1em;
+const FourZeroFourStyles = css`
+  &_image {
+    max-width: 100%;
+    height: auto;
+  }
 `;
 
 const PostList = props => {
   console.debug(props);
   return (
-    <div>
-      <ViewTitle content="The List" />
-      <PostListTools />
-      <ul className={PostListStyles} data-class="PostListStyles">
-        {props.posts.map(post => <Post key={post.id} postContent={post} />)}
-      </ul>
+    <div className={FourZeroFourStyles}>
+      <ViewTitle content="404" />
+      <img src={FourSVG} className={`${FourZeroFourStyles}_image`} alt="404" />
     </div>
   );
 };

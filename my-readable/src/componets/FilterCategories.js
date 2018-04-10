@@ -48,16 +48,33 @@ class FilterCategories extends Component {
     }
   `;
 
-  constructor(props) {
-    super(props);
-    const initCategory =
-      props.match.params.category !== undefined
-        ? props.match.params.category
-        : "all";
-    this.state = {
-      selectStatus: initCategory
-    };
-    this.props.categoryFilterSelected(initCategory);
+  state = {
+    selectStatus: ""
+  };
+
+  componentWillReceiveProps() {
+    console.debug(
+      this.props.match.path,
+      this.props.match.params.category,
+      this.state.selectStatus
+    );
+    if (Object.keys(this.props.categories).length !== 0) {
+      console.debug("keys found :: check for category match");
+      const catMatch = this.props.categories.filter(
+        cat => cat.name === this.props.match.params.category
+      );
+      console.debug("catMatch: ", catMatch.length);
+      if (catMatch.length > 0) {
+        this.setState({
+          selectStatus: this.props.match.params.category
+        });
+      } else {
+        if (this.props.match.path !== "/") {
+          this.props.setCurrentView("fourzerofour");
+          this.props.history.push("/fourzerofour");
+        }
+      }
+    }
   }
 
   togglefilterStatus = e => {

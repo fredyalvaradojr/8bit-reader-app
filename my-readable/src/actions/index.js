@@ -43,11 +43,6 @@ export function loadAllCategoriesSuccess(allCategories) {
   return { type: CATEGORIES_LOADED, allCategories };
 }
 
-export function loadFilterCategorySuccess(filteredCategoryPosts) {
-  console.debug("loadFilterCategorySuccess: ", filteredCategoryPosts);
-  return { type: POST_LOADED_VIA_FILTER, filteredCategoryPosts };
-}
-
 export function loadPosts() {
   return function(dispatch) {
     api
@@ -92,11 +87,9 @@ export function loadPost(id) {
 }
 
 export function loadFilterCategory(category) {
-  console.debug("loadFilterCategory: ", category);
   return function(dispatch) {
     api.getFilterCategory(category).then(posts => {
-      console.debug("category posts:", posts);
-      dispatch(loadFilterCategorySuccess(posts));
+      dispatch(fetchResults({ type: POST_LOADED_VIA_FILTER, posts }));
     });
   };
 }
@@ -124,7 +117,6 @@ export function postVote(postId, voteScore, allPosts) {
 }
 
 export function fetchResults(response) {
-  console.debug(response);
   return response;
 }
 

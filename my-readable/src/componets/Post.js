@@ -137,7 +137,6 @@ const Post = props => {
 };
 
 function mapStateToProps(state, ownProps) {
-  console.debug(state);
   return {
     currentPost: state.currentPost
   };
