@@ -35,7 +35,7 @@ const Breadcrumb = props => {
           <NavLink
             key={item}
             exact
-            to={item}
+            to={`/${item}`}
             onClick={() => {
               props.setCurrentView(props.viewTo);
             }}

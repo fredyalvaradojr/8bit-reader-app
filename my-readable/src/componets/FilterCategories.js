@@ -50,13 +50,14 @@ class FilterCategories extends Component {
 
   constructor(props) {
     super(props);
-    console.debug(
-      "props.categoryFilterSelectedValue: ",
-      props.categoryFilterSelectedValue
-    );
+    const initCategory =
+      props.match.params.category !== undefined
+        ? props.match.params.category
+        : "all";
     this.state = {
-      selectStatus: props.categoryFilterSelectedValue
+      selectStatus: initCategory
     };
+    this.props.categoryFilterSelected(initCategory);
   }
 
   togglefilterStatus = e => {
@@ -114,7 +115,6 @@ class FilterCategories extends Component {
 }
 
 const mapStateToProps = state => {
-  console.debug(state);
   return {
     categories: state.categories,
     categoryFilterSelectedValue: state.categoryFilterSelected

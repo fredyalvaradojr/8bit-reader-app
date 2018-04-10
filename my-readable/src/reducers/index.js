@@ -13,7 +13,6 @@ const initialState = {
 };
 
 const sortedPostList = (sortState, sort) => {
-  console.debug(sortState, sort);
   switch (sort) {
     case "dateNew": {
       return sortState.sort((a, b) => b.timestamp - a.timestamp);
@@ -193,7 +192,6 @@ function categoryFilterSelected(
 }
 
 function activeSort(state = initialState.activeSort, action) {
-  console.debug(action);
   switch (action.type) {
     case actions.POST_ACTIVE_SORT:
       return action.props;

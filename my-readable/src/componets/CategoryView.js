@@ -12,10 +12,10 @@ const PostListStyles = css`
   padding-top: 1em;
 `;
 
-class PostList extends Component {
+class CategoryView extends Component {
   constructor(props) {
     super(props);
-    this.props.loadFilterCategory(this.props.categoryFilterSelectedValue);
+    this.props.loadFilterCategory(props.match.params.category);
   }
 
   render() {
@@ -43,7 +43,6 @@ class PostList extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  console.debug(state);
   return {
     posts: state.posts,
     categoryFilterSelectedValue: state.categoryFilterSelected
@@ -52,9 +51,8 @@ function mapStateToProps(state, ownProps) {
 
 const mapDispatchToProps = dispatch => ({
   loadFilterCategory: category => {
-    console.debug(category);
     dispatch(actions.loadFilterCategory(category));
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostList);
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryView);
