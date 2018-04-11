@@ -61,9 +61,7 @@ class CommentsAddForm extends Component {
               <div className="add-comment-form_actions">
                 <button onClick={e => this.props.openForm(e)}>Cancel</button>
                 <button
-                  onClick={e =>
-                    this.handleNewComment(e, this.props.currentPost.id)
-                  }
+                  onClick={e => this.handleNewComment(e, this.props.parentID)}
                 >
                   Publish
                 </button>

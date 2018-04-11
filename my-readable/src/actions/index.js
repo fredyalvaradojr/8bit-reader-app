@@ -26,6 +26,7 @@ export const POST_DELETE_FAIL = "POST_DELETE_FAIL";
 export const POST_DELETE_COMMENT = "POST_DELETE_COMMENT";
 export const POST_ADDED = "POST_ADDED";
 export const POST_SORT = "POST_SORT";
+export const POST_DELETE_REDIRECT = "POST_DELETE_REDIRECT";
 export const POST_ACTIVE_SORT = "POST_ACTIVE_SORT";
 export const POST_ADDED_FAIL = "POST_ADDED_FAIL";
 export const CURRENT_LOCATION_SET = "CURRENT_LOCATION_SET";
@@ -186,16 +187,26 @@ export function publishComment(props) {
   };
 }
 
-export function postCommentVote(commentId, voteScore, currentPost) {
+export function postCommentVote(commentId, voteScore, parentID) {
   return function(dispatch) {
     api.postNewCommentVote(commentId, voteScore).then(res => {
       if (res.status === 200) {
         dispatch(
-          fetchResults({ type: POSTED_COMMENT_VOTE, voteScore, commentId })
+          fetchResults({
+            type: POSTED_COMMENT_VOTE,
+            voteScore,
+            commentId,
+            parentID
+          })
         );
       } else {
         dispatch(
-          fetchResults({ type: POSTED_COMMENT_VOTE_FAIL, voteScore, commentId })
+          fetchResults({
+            type: POSTED_COMMENT_VOTE_FAIL,
+            voteScore,
+            commentId,
+            parentID
+          })
         );
       }
     });
@@ -214,17 +225,29 @@ export function editComment(props) {
   };
 }
 
-export function deleteComment(props) {
-  console.debug(props);
+export function deleteComment(commentID, parentID) {
   return function(dispatch) {
-    api.deleteComment(props).then(res => {
+    api.deleteComment(commentID).then(res => {
       if (res.status === 200) {
-        dispatch(fetchResults({ type: POSTED_COMMENT_DELETE, props }));
+        dispatch(
+          fetchResults({ type: POSTED_COMMENT_DELETE, commentID, parentID })
+        );
       } else {
-        dispatch(fetchResults({ type: POSTED_COMMENT_DELETE_FAIL, props }));
+        dispatch(
+          fetchResults({
+            type: POSTED_COMMENT_DELETE_FAIL,
+            commentID,
+            parentID
+          })
+        );
       }
     });
   };
+}
+
+export function setDeletePostFlag(bool) {
+  console.debug("setDeletePostFlag: ", bool);
+  return { type: POST_DELETE_REDIRECT, bool };
 }
 
 export function activeSort(props) {

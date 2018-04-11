@@ -7,7 +7,10 @@ const CommentView = props => {
       <div>{props.commentInfo.body}</div>
       <div>{props.commentInfo.author}</div>
       <div>{props.commentInfo.voteScore}</div>
-      <CommentViewTools commentId={props.commentInfo.id} />
+      <CommentViewTools
+        parentID={props.parentID}
+        commentId={props.commentInfo.id}
+      />
     </div>
   );
 };

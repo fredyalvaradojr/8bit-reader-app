@@ -13,7 +13,6 @@ const PostListStyles = css`
 `;
 
 const PostList = props => {
-  console.debug(props);
   return (
     <div>
       <ViewTitle content="The List" />

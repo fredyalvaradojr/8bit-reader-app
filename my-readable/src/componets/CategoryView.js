@@ -21,14 +21,6 @@ class CategoryView extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   console.debug("CategoryView Mounted");
-  //   console.debug(
-  //     "props.match.params.category: ",
-  //     this.props.match.params.category
-  //   );
-  // }
-
   render() {
     return (
       <div>

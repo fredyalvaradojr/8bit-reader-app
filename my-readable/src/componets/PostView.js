@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { css } from "emotion";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import globalStyles from "../utils/globalStyles";
 import PostTools from "./PostTools";
@@ -8,7 +9,7 @@ import { hexToRGB } from "../utils/index";
 import ViewTitle from "./ViewTitle";
 import CommentView from "./CommentView";
 import CommentsAddForm from "./CommentsAddForm";
-import { loadPost, setCurrentView } from "../actions/index";
+import { loadPost, setCurrentView, loadPosts } from "../actions/index";
 
 const article = css`
   &_header {
@@ -35,22 +36,47 @@ const article = css`
 
 class PostView extends Component {
   state = {
-    commentsFormStatus: false
+    commentsFormStatus: false,
+    postViewContent: {}
   };
 
-  constructor(props) {
-    super(props);
-    if (Object.keys(this.props.currentPost).length === 0) {
-      // dispatch load current post, get id from url
-      this.props.thisLoadCurrentPost(this.props.match.params.post_id);
-    }
-    if (!this.props.currentView) {
-      this.props.thisSetCurrentView("PostView");
+  componentDidMount() {
+    if (this.props.allPosts.length === 0) {
+      this.props.thisLoadPosts();
+    } else {
+      const post = this.props.allPosts.filter(
+        post => post.id === this.props.match.params.post_id
+      );
+      if (post.length > 0) {
+        this.setState({
+          postViewContent: post[0]
+        });
+      }
     }
   }
 
-  componentDidMount() {
-    console.debug("PostView Mounted");
+  componentWillReceiveProps(props) {
+    console.debug("PostView componentWillReceiveProps: ", props);
+    if (props.allPosts) {
+      const post = props.allPosts.filter(
+        post => post.id === props.match.params.post_id
+      );
+      if (post.length > 0) {
+        this.setState({
+          postViewContent: post[0]
+        });
+      } else {
+        console.debug("componentWillReceiveProps: ", props.postViewFlag);
+        if (props.postViewFlag) {
+          console.debug("componentWillReceiveProps: ", props.postViewFlag);
+          this.props.thisSetCurrentView("default");
+          this.props.history.push("/");
+        } else if (this.props.match.path !== "/") {
+          this.props.thisSetCurrentView("fourzerofour");
+          this.props.history.push("/fourzerofour");
+        }
+      }
+    }
   }
 
   toggleCommentForm = e => {
@@ -60,31 +86,37 @@ class PostView extends Component {
   };
 
   render() {
+    console.debug(
+      "this.state.postViewContent: ",
+      this.state.postViewContent.id
+    );
     return (
       <div className="post-view">
         <article className={article}>
-          <ViewTitle content={this.props.currentPost.title} />
+          <ViewTitle content={this.state.postViewContent.title} />
           <Breadcrumb
             backToTitle="List"
             backTo="/"
             viewTo="default"
-            postTitle={this.props.currentPost.title}
+            postTitle={this.state.postViewContent.title}
           />
           <div className={`${article}_meta`}>
             <div className={`${article}_author`}>
-              {this.props.currentPost.author}
+              {this.state.postViewContent.author}
             </div>
             <div className={`${article}_number-comments`}>
-              {this.props.currentPost.commentCount}
+              {this.state.postViewContent.commentCount}
             </div>
             <div className={`${article}_number-votes`}>
-              {this.props.currentPost.voteScore}
+              {this.state.postViewContent.voteScore}
             </div>
           </div>
-          <div className={`${article}_body`}>{this.props.currentPost.body}</div>
-          <PostTools />
-          {this.props.currentPost.comments &&
-          this.props.currentPost.comments.length > 0 ? (
+          <div className={`${article}_body`}>
+            {this.state.postViewContent.body}
+          </div>
+          <PostTools postId={this.state.postViewContent.id} postView={true} />
+          {this.state.postViewContent.comments &&
+          this.state.postViewContent.comments.length > 0 ? (
             <div className={`${article}_comments`}>
               <div className="commentsheader">
                 <h2>Comments</h2>
@@ -93,14 +125,20 @@ class PostView extends Component {
                 </button>
               </div>
               {this.state.commentsFormStatus ? (
-                <CommentsAddForm openForm={e => this.toggleCommentForm(e)} />
+                <CommentsAddForm
+                  parentID={this.state.postViewContent.id}
+                  openForm={e => this.toggleCommentForm(e)}
+                />
               ) : (
                 ""
               )}
               <ul>
-                {this.props.currentPost.comments.map(comment => (
+                {this.state.postViewContent.comments.map(comment => (
                   <li key={comment.id}>
-                    <CommentView commentInfo={comment} />
+                    <CommentView
+                      parentID={this.state.postViewContent.id}
+                      commentInfo={comment}
+                    />
                   </li>
                 ))}
               </ul>
@@ -108,7 +146,7 @@ class PostView extends Component {
           ) : (
             <div className={`${article}_comments`}>
               <h2>This post needs your feedback</h2>
-              <CommentsAddForm />
+              <CommentsAddForm parentID={this.state.postViewContent.id} />
             </div>
           )}
         </article>
@@ -118,14 +156,20 @@ class PostView extends Component {
 }
 
 const mapStateToProps = state => {
+  console.debug(state, state.posts);
   return {
+    postViewFlag: state.postViewDeleteFlag,
     currentPost: state.currentPost,
-    currentView: state.currentView
+    currentView: state.currentView,
+    allPosts: state.posts
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    thisLoadPosts: () => {
+      dispatch(loadPosts());
+    },
     thisLoadCurrentPost: postID => {
       dispatch(loadPost(postID));
     },
@@ -135,4 +179,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostView);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(PostView)
+);

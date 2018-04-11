@@ -53,17 +53,10 @@ class FilterCategories extends Component {
   };
 
   componentWillReceiveProps() {
-    console.debug(
-      this.props.match.path,
-      this.props.match.params.category,
-      this.state.selectStatus
-    );
     if (Object.keys(this.props.categories).length !== 0) {
-      console.debug("keys found :: check for category match");
       const catMatch = this.props.categories.filter(
         cat => cat.name === this.props.match.params.category
       );
-      console.debug("catMatch: ", catMatch.length);
       if (catMatch.length > 0) {
         this.setState({
           selectStatus: this.props.match.params.category

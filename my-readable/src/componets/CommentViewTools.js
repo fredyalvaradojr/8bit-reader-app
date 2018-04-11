@@ -36,10 +36,11 @@ class CommentViewTools extends Component {
     });
   };
 
-  thisDeleteCommentConfirmation = (e, commentId) => {
+  thisDeleteCommentConfirmation = (e, commentId, parentID) => {
+    console.debug(parentID, "parentid");
     // setup delete modal, yes dispatch event, no, just close modal
     console.debug(e.currentTarget, commentId);
-    this.props.thisDeleteComment(commentId);
+    this.props.thisDeleteComment(commentId, parentID);
   };
 
   render() {
@@ -54,7 +55,7 @@ class CommentViewTools extends Component {
             this.props.voting(
               this.props.commentId,
               "upVote",
-              this.props.currentPost
+              this.props.parentID
             )
           }
         >
@@ -72,7 +73,7 @@ class CommentViewTools extends Component {
             this.props.voting(
               this.props.commentId,
               "downVote",
-              this.props.currentPost
+              this.props.parentID
             )
           }
         >
@@ -98,6 +99,7 @@ class CommentViewTools extends Component {
             closeAction={e => this.toggleEditModal(e)}
             modalType="edit-comment"
             commentId={this.props.commentId}
+            parentID={this.props.parentID}
           />
         ) : (
           ""
@@ -105,7 +107,11 @@ class CommentViewTools extends Component {
         <button
           className="post-tools_delete"
           onClick={e =>
-            this.thisDeleteCommentConfirmation(e, this.props.commentId)
+            this.thisDeleteCommentConfirmation(
+              e,
+              this.props.commentId,
+              this.props.parentID
+            )
           }
         >
           Delete
@@ -117,6 +123,7 @@ class CommentViewTools extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    parentID: ownProps.parentID,
     commentId: ownProps.commentId,
     currentPost: state.currentPost
   };
@@ -124,11 +131,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    voting: (commentId, vote, currentPost) => {
-      dispatch(postCommentVote(commentId, vote, currentPost));
+    voting: (commentId, vote, parentID) => {
+      dispatch(postCommentVote(commentId, vote, parentID));
     },
-    thisDeleteComment: commentID => {
-      dispatch(deleteComment(commentID));
+    thisDeleteComment: (commentID, parentID) => {
+      dispatch(deleteComment(commentID, parentID));
     }
   };
 };

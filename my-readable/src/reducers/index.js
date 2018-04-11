@@ -9,7 +9,8 @@ const initialState = {
   currentView: null,
   categoryFilterSelected: "all",
   modalEditStatus: false,
-  activeSort: "dateNew"
+  activeSort: "dateNew",
+  postViewDeleteFlag: false
 };
 
 const sortedPostList = (sortState, sort) => {
@@ -51,6 +52,97 @@ function posts(
   activeSort = initialState.activeSort
 ) {
   switch (action.type) {
+    case actions.POSTED_COMMENT_EDIT:
+      console.debug(action);
+      return [...state].map(post => {
+        if (post.id !== action.props.parentID) {
+          return post;
+        } else {
+          const commentsObj = [...post.comments];
+          const remainingCommmentsObj = commentsObj.map(comment => {
+            if (comment.id !== action.props.editCommentID) {
+              return comment;
+            } else {
+              comment["body"] = action.props.editCommentBody;
+              comment["timestamp"] = action.props.timestamp;
+              return comment;
+            }
+          });
+          console.debug(remainingCommmentsObj);
+          return {
+            ...post,
+            comments: remainingCommmentsObj
+          };
+        }
+      });
+      const postedCommentEditObj = { ...state };
+      postedCommentEditObj["comments"].map(comment => {
+        if (action.props.editCommentID !== comment.id) {
+          return comment;
+        } else {
+        }
+      });
+      return postedCommentEditObj;
+    case actions.POSTED_COMMENT_VOTE:
+      return [...state].map(post => {
+        if (post.id !== action.parentID) {
+          return post;
+        } else {
+          const commentsObj = [...post.comments];
+          const remainingCommmentsObj = commentsObj.map(comment => {
+            if (comment.id !== action.commentId) {
+              return comment;
+            } else {
+              comment["voteScore"] =
+                action.voteScore === "upVote"
+                  ? comment.voteScore + 1
+                  : comment.voteScore - 1;
+              return comment;
+            }
+          });
+          return {
+            ...post,
+            comments: remainingCommmentsObj
+          };
+        }
+      });
+    case actions.POSTED_COMMENT_DELETE:
+      return [...state].map(post => {
+        if (post.id !== action.parentID) {
+          return post;
+        } else {
+          const commentsObj = [...post.comments];
+          const remainingCommmentsObj = commentsObj.filter(
+            comment => comment.id !== action.commentID
+          );
+          return {
+            ...post,
+            comments: remainingCommmentsObj
+          };
+        }
+      });
+    case actions.COMMENT_ADD:
+      return [...state].map(post => {
+        if (post.id !== action.props.newCommentParentID) {
+          return post;
+        } else {
+          const commentsObj = [...post.comments];
+          commentsObj.push({
+            author: action.props.newCommentAuthor,
+            body: action.props.newCommentBody,
+            deleted: false,
+            id: action.props.UUID,
+            parentDeleted: false,
+            parentId: action.props.newCommentParentID,
+            timestamp: action.props.timestamp,
+            voteScore: 0
+          });
+          return {
+            ...post,
+            comments: commentsObj
+          };
+        }
+      });
     case actions.POST_SORT:
       return sortedPostList([...state], action.props);
     case actions.POST_DELETE:
@@ -107,51 +199,6 @@ function posts(
 
 function currentPost(state = initialState.currentPost, action) {
   switch (action.type) {
-    case actions.POSTED_COMMENT_DELETE:
-      const postedCommentDeleteObj = { ...state };
-      postedCommentDeleteObj["comments"] = postedCommentDeleteObj[
-        "comments"
-      ].filter(comment => comment.id !== action.props);
-      return postedCommentDeleteObj;
-    case actions.POSTED_COMMENT_EDIT:
-      const postedCommentEditObj = { ...state };
-      postedCommentEditObj["comments"].map(comment => {
-        if (action.props.editCommentID !== comment.id) {
-          return comment;
-        } else {
-          comment["body"] = action.props.editCommentBody;
-          comment["timestamp"] = action.props.timestamp;
-          return comment;
-        }
-      });
-      return postedCommentEditObj;
-    case actions.COMMENT_ADD:
-      const obj = { ...state };
-      obj["comments"].push({
-        author: action.props.newCommentAuthor,
-        body: action.props.newCommentBody,
-        deleted: false,
-        id: action.props.UUID,
-        parentDeleted: false,
-        parentId: action.props.newCommentParentID,
-        timestamp: action.props.timestamp,
-        voteScore: 0
-      });
-      return obj;
-    case actions.POSTED_COMMENT_VOTE:
-      const postedCommentVoteObj = { ...state };
-      postedCommentVoteObj["comments"].map(comment => {
-        if (action.commentId !== comment.id) {
-          return comment;
-        } else {
-          comment["voteScore"] =
-            action.voteScore === "upVote"
-              ? comment.voteScore + 1
-              : comment.voteScore - 1;
-          return comment;
-        }
-      });
-      return postedCommentVoteObj;
     case actions.POST_SINGLE_LOADED:
       return action.currentPost;
     case actions.CURRENT_LOCATION_SET:
@@ -200,11 +247,22 @@ function activeSort(state = initialState.activeSort, action) {
   }
 }
 
+function postViewDeleteFlag(state = initialState.postViewDeleteFlag, action) {
+  switch (action.type) {
+    case actions.POST_DELETE_REDIRECT:
+      console.debug(action);
+      return action.bool;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   posts,
   currentPost,
   currentView,
   categories,
   categoryFilterSelected,
-  activeSort
+  activeSort,
+  postViewDeleteFlag
 });

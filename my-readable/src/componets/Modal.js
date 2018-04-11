@@ -76,7 +76,8 @@ class Modal extends Component {
     newPostAuthor: "",
     newPostCategory: "",
     editCommentBody: "",
-    editCommentID: ""
+    editCommentID: "",
+    editcommentParentID: ""
   };
 
   componentDidMount() {
@@ -100,14 +101,18 @@ class Modal extends Component {
         break;
       }
       case "edit-comment": {
-        const thisComment = this.props.currentPost["comments"].filter(
+        const thisEditCommentPost = this.props.allPosts.filter(
+          post => post.id === this.props.parentID
+        );
+        const thisEditComment = thisEditCommentPost[0]["comments"].filter(
           comment => comment.id === this.props.commentId
         );
-        console.debug("thisComment: ", thisComment[0].body);
+        console.debug("thisComment: ", thisEditComment[0].body);
         this.setState({
           modalType: this.props.modalType,
-          editCommentBody: thisComment[0].body,
-          editCommentID: thisComment[0].id
+          editCommentBody: thisEditComment[0].body,
+          editCommentID: thisEditComment[0].id,
+          editcommentParentID: this.props.parentID
         });
         break;
       }
@@ -139,7 +144,8 @@ class Modal extends Component {
     this.props.handleEditComment({
       editCommentBody: this.state.editCommentBody,
       editCommentID: this.state.editCommentID,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      parentID: this.state.editcommentParentID
     });
     e.preventDefault();
   };
