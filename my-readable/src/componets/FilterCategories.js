@@ -52,15 +52,22 @@ class FilterCategories extends Component {
     selectStatus: ""
   };
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
+    const catName =
+      this.props.match.params.category !== nextProps.match.params.category
+        ? nextProps.match.params.category
+        : this.props.match.params.category;
     if (Object.keys(this.props.categories).length !== 0) {
       const catMatch = this.props.categories.filter(
-        cat => cat.name === this.props.match.params.category
+        cat => cat.name === catName
       );
       if (catMatch.length > 0) {
         this.setState({
-          selectStatus: this.props.match.params.category
+          selectStatus: catName
         });
+        if (this.props.categoryFilterSelectedValue !== catName) {
+          this.props.categoryFilterSelected(catName);
+        }
       } else {
         if (this.props.match.path !== "/") {
           this.props.setCurrentView("fourzerofour");
@@ -75,16 +82,16 @@ class FilterCategories extends Component {
       e.currentTarget.value !== this.state.selectStatus &&
       e.currentTarget.value !== "all"
     ) {
-      this.setState({ selectStatus: e.currentTarget.value });
       this.props.setCurrentView("CategoryView");
+      this.setState({ selectStatus: e.currentTarget.value });
+      this.props.history.push(`/${e.currentTarget.value}`);
       this.props.categoryFilterSelected(e.currentTarget.value);
       this.props.loadFilterCategory(e.currentTarget.value);
-      this.props.history.push(`/${e.currentTarget.value}`);
     } else {
       this.setState({ selectStatus: e.currentTarget.value });
+      this.props.history.push(`/`);
       this.props.setCurrentView("default");
       this.props.categoryFilterSelected(e.currentTarget.value);
-      this.props.history.push(`/`);
     }
   };
 

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { css } from "emotion";
 import Post from "../componets/Post";
+import { withRouter } from "react-router-dom";
 import * as actions from "../actions";
 import globalStyles from "../utils/globalStyles";
 import ViewTitle from "./ViewTitle";
@@ -45,7 +46,7 @@ class CategoryView extends Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
     posts: state.posts,
     categoryFilterSelectedValue: state.categoryFilterSelected,
@@ -62,4 +63,6 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryView);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(CategoryView)
+);

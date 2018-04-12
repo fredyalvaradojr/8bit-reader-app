@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { css } from "emotion";
+import { withRouter } from "react-router-dom";
 import globalStyles from "./utils/globalStyles";
 import * as actions from "./actions/index";
 import PostList from "./componets/PostList";
@@ -53,4 +54,4 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

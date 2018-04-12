@@ -75,14 +75,6 @@ function posts(
           };
         }
       });
-      const postedCommentEditObj = { ...state };
-      postedCommentEditObj["comments"].map(comment => {
-        if (action.props.editCommentID !== comment.id) {
-          return comment;
-        } else {
-        }
-      });
-      return postedCommentEditObj;
     case actions.POSTED_COMMENT_VOTE:
       return [...state].map(post => {
         if (post.id !== action.parentID) {

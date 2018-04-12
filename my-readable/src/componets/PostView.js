@@ -41,6 +41,7 @@ class PostView extends Component {
   };
 
   componentDidMount() {
+    console.debug("test");
     if (this.props.allPosts.length === 0) {
       this.props.thisLoadPosts();
     } else {
@@ -51,12 +52,15 @@ class PostView extends Component {
         this.setState({
           postViewContent: post[0]
         });
+      } else if (this.props.match.path !== "/") {
+        this.props.thisSetCurrentView("fourzerofour");
+        this.props.history.push("/fourzerofour");
       }
     }
   }
 
   componentWillReceiveProps(props) {
-    console.debug("PostView componentWillReceiveProps: ", props);
+    console.debug("test");
     if (props.allPosts) {
       const post = props.allPosts.filter(
         post => post.id === props.match.params.post_id
@@ -66,9 +70,7 @@ class PostView extends Component {
           postViewContent: post[0]
         });
       } else {
-        console.debug("componentWillReceiveProps: ", props.postViewFlag);
         if (props.postViewFlag) {
-          console.debug("componentWillReceiveProps: ", props.postViewFlag);
           this.props.thisSetCurrentView("default");
           this.props.history.push("/");
         } else if (this.props.match.path !== "/") {
