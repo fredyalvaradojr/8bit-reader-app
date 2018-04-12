@@ -81,10 +81,8 @@ class Modal extends Component {
   };
 
   componentDidMount() {
-    console.debug(this.props);
     switch (this.props.modalType) {
       case "new": {
-        // also set state for newPostUUID and newPostTimestamp
         this.setState({ modalType: this.props.modalType });
         break;
       }
@@ -122,9 +120,7 @@ class Modal extends Component {
   }
 
   handleModalEdits = e => {
-    // dispatch action to update post information
     this.props.editThisPostInfo(this.state);
-    // on complete set modal state false
     e.preventDefault();
   };
 
@@ -155,7 +151,6 @@ class Modal extends Component {
   };
 
   setModalContent = () => {
-    console.debug(this.state.modalType);
     if (this.state.modalType === "new") {
       return (
         <div className={this.ModalStyles} data-class="this.ModalStyles">

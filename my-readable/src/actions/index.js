@@ -152,7 +152,6 @@ export function editPost(props) {
 
 export function addNewPostInfo(props) {
   return function(dispatch) {
-    console.debug(props);
     api.addNewPost(props).then(res => {
       if (res.status === 200) {
         dispatch(fetchResults({ type: POST_ADDED, props }));

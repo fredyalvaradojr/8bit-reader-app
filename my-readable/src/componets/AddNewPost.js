@@ -7,7 +7,6 @@ class AddNewPost extends Component {
   };
 
   toggleNewModal = e => {
-    console.debug("toggleNewModal");
     this.setState({ newModalStatus: this.state.newModalStatus ? false : true });
   };
 

@@ -68,7 +68,6 @@ function posts(
               return comment;
             }
           });
-          console.debug(remainingCommmentsObj);
           return {
             ...post,
             comments: remainingCommmentsObj
@@ -179,7 +178,7 @@ function posts(
         commentCount: 0,
         comments: [],
         deleted: false,
-        voteScore: 0
+        voteScore: 1
       });
       return sortedPostList(array, activeSort);
     case actions.POST_LOADED:
