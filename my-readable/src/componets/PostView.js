@@ -9,6 +9,8 @@ import { hexToRGB } from "../utils/index";
 import ViewTitle from "./ViewTitle";
 import CommentView from "./CommentView";
 import CommentsAddForm from "./CommentsAddForm";
+import PostMeta from "./PostMeta";
+import CommentsAddSVG from "../media/commentsAdd.svg";
 import { loadPost, setCurrentView, loadPosts } from "../actions/index";
 
 const article = css`
@@ -30,7 +32,43 @@ const article = css`
   }
 
   &_body {
-    margin: 0 0 3em;
+    margin: 1em 0 0.5em;
+    padding-bottom: 1em;
+    font-size: 1.4375em;
+    border-bottom: 0.0625rem dotted ${globalStyles.color.lightPurple};
+  }
+
+  &_comments {
+    margin-top: 1em;
+    padding: 1em;
+    background: rgba(${hexToRGB(globalStyles.color.purple)}, 0.1);
+  }
+
+  &_comments_header {
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    border-bottom: 0.0625rem dotted ${globalStyles.color.purple};
+  }
+
+  &_comments_header_add {
+    display: flex;
+  }
+
+  &_comments_header&_comments_header--add-active {
+    flex: 2;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  &_add-comment--btn {
+    background: transparent;
+  }
+
+  &_comment-item {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 1em;
+    margin-bottom: 1em;
   }
 `;
 
@@ -41,7 +79,6 @@ class PostView extends Component {
   };
 
   componentDidMount() {
-    console.debug("test");
     if (this.props.allPosts.length === 0) {
       this.props.thisLoadPosts();
     } else {
@@ -60,7 +97,6 @@ class PostView extends Component {
   }
 
   componentWillReceiveProps(props) {
-    console.debug("test");
     if (props.allPosts) {
       const post = props.allPosts.filter(
         post => post.id === props.match.params.post_id
@@ -88,31 +124,17 @@ class PostView extends Component {
   };
 
   render() {
-    console.debug(
-      "this.state.postViewContent: ",
-      this.state.postViewContent.id
-    );
     return (
       <div className="post-view">
         <article className={article}>
-          <ViewTitle content={this.state.postViewContent.title} />
           <Breadcrumb
             backToTitle="List"
             backTo="/"
             viewTo="default"
             postTitle={this.state.postViewContent.title}
           />
-          <div className={`${article}_meta`}>
-            <div className={`${article}_author`}>
-              {this.state.postViewContent.author}
-            </div>
-            <div className={`${article}_number-comments`}>
-              {this.state.postViewContent.commentCount}
-            </div>
-            <div className={`${article}_number-votes`}>
-              {this.state.postViewContent.voteScore}
-            </div>
-          </div>
+          <ViewTitle content={this.state.postViewContent.title} />
+          <PostMeta postContent={this.state.postViewContent} />
           <div className={`${article}_body`}>
             {this.state.postViewContent.body}
           </div>
@@ -120,10 +142,25 @@ class PostView extends Component {
           {this.state.postViewContent.comments &&
           this.state.postViewContent.comments.length > 0 ? (
             <div className={`${article}_comments`}>
-              <div className="commentsheader">
-                <h2>Comments</h2>
-                <button onClick={e => this.toggleCommentForm(e)}>
-                  + Comment
+              <div
+                className={`${article}_comments_header ${article}_comments_header_add`}
+              >
+                <h2
+                  className={`${article}_comments_header ${article}_comments_header--add-active`}
+                >
+                  Comments
+                </h2>
+                <button
+                  className={`${article}_add-comment--btn`}
+                  onClick={e => this.toggleCommentForm(e)}
+                >
+                  <span className="sr-only">Add A Comment</span>
+                  <img
+                    className={`${article}_icon`}
+                    src={CommentsAddSVG}
+                    alt="Add a Comment"
+                    aria-hidden="true"
+                  />
                 </button>
               </div>
               {this.state.commentsFormStatus ? (
@@ -136,7 +173,7 @@ class PostView extends Component {
               )}
               <ul>
                 {this.state.postViewContent.comments.map(comment => (
-                  <li key={comment.id}>
+                  <li className={`${article}_comment-item`} key={comment.id}>
                     <CommentView
                       parentID={this.state.postViewContent.id}
                       commentInfo={comment}
@@ -147,8 +184,13 @@ class PostView extends Component {
             </div>
           ) : (
             <div className={`${article}_comments`}>
-              <h2>This post needs your feedback</h2>
-              <CommentsAddForm parentID={this.state.postViewContent.id} />
+              <h2 className={`${article}_comments_header`}>
+                This post needs your feedback!
+              </h2>
+              <CommentsAddForm
+                noComments={true}
+                parentID={this.state.postViewContent.id}
+              />
             </div>
           )}
         </article>
@@ -158,7 +200,6 @@ class PostView extends Component {
 }
 
 const mapStateToProps = state => {
-  console.debug(state, state.posts);
   return {
     postViewFlag: state.postViewDeleteFlag,
     currentPost: state.currentPost,

@@ -13,8 +13,9 @@ import { hexToRGB } from "../utils/index";
 
 class FilterCategories extends Component {
   filterCategoriesCSS = css`
-    margin: 0 0 2em;
-    display: flex;
+    margin: 0 0 1em;
+    flex: 0 0 40%;
+    max-width: 40%;
 
     &_filter-container {
       flex: 1;
@@ -23,26 +24,26 @@ class FilterCategories extends Component {
     }
 
     &_filter {
-      background: ${globalStyles.color.purple};
       padding: 0.1em;
       box-shadow: -0.375em 0.375em 0 0
         rgba(${hexToRGB(globalStyles.color.purple)}, 0.4);
-      text-transform: uppercase;
-      color: ${globalStyles.color.white};
-      font-size: 0.75em;
+      color: ${globalStyles.color.black};
+      font-size: 0.6875em;
       font-weight: 400;
       padding: 0.3em 0.5em;
       width: 100%;
       display: inline-block;
-      text-align: center;
+      text-align: left;
     }
 
     &_filter-label {
+      margin-left: 0.3em;
     }
 
     &_filter-select {
       background: none;
-      color: ${globalStyles.color.white};
+      padding-left: 0;
+      color: ${globalStyles.color.black};
       font-weight: 900;
       text-transform: uppercase;
     }

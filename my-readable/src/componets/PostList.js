@@ -6,10 +6,16 @@ import * as actions from "../actions";
 import globalStyles from "../utils/globalStyles";
 import ViewTitle from "./ViewTitle";
 import PostListTools from "./PostListTools";
+import AddNewPost from "./AddNewPost";
 
 const PostListStyles = css`
   border-top: 0.125em dotted ${globalStyles.color.darkGray};
   padding-top: 1em;
+
+  @media (min-width: 48em) {
+    display: flex;
+    flex-wrap: wrap;
+  }
 `;
 
 const PostList = props => {
@@ -17,6 +23,7 @@ const PostList = props => {
     <div>
       <ViewTitle content="The List" />
       <PostListTools />
+      <AddNewPost />
       <ul className={PostListStyles} data-class="PostListStyles">
         {props.posts.map(post => <Post key={post.id} postContent={post} />)}
       </ul>
@@ -24,11 +31,9 @@ const PostList = props => {
   );
 };
 
-function mapStateToProps(state, ownProps) {
-  return {
-    posts: state.posts
-  };
-}
+const mapStateToProps = state => ({
+  posts: state.posts
+});
 
 const mapDispatchToProps = dispatch => ({
   loadpost: dispatch(actions.loadPosts())

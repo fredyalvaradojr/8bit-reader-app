@@ -4,6 +4,8 @@ import { css } from "emotion";
 import { postCommentVote, deleteComment } from "../actions/index";
 import UpvoteSVG from "../media/upvote.svg";
 import DownvoteSVG from "../media/downvote.svg";
+import DeleteSVG from "../media/delete.svg";
+import EditSVG from "../media/edit.svg";
 import Modal from "./Modal";
 
 class CommentViewTools extends Component {
@@ -17,9 +19,15 @@ class CommentViewTools extends Component {
     justify-content: flex-end;
 
     &_upvote,
-    &_downvote {
+    &_downvote,
+    &_delete,
+    &_edit {
       background: none;
       margin-right: 0.5em;
+    }
+
+    &_delete {
+      margin-right: 0;
     }
 
     &_icon {
@@ -86,12 +94,18 @@ class CommentViewTools extends Component {
           />
         </button>
         <button
-          className="post-tools_edit"
+          className={`${this.CommentViewToolsStyles}_edit`}
           onClick={e => {
             this.toggleEditModal(e);
           }}
         >
-          Edit
+          <span className="sr-only">Edit This Comment</span>
+          <img
+            className={`${this.CommentViewToolsStyles}_icon`}
+            src={EditSVG}
+            alt="Edit This Comment"
+            aria-hidden="true"
+          />
         </button>
         {this.state.activeEditModal ? (
           <Modal
@@ -105,7 +119,7 @@ class CommentViewTools extends Component {
           ""
         )}
         <button
-          className="post-tools_delete"
+          className={`${this.CommentViewToolsStyles}_delete`}
           onClick={e =>
             this.thisDeleteCommentConfirmation(
               e,
@@ -114,7 +128,13 @@ class CommentViewTools extends Component {
             )
           }
         >
-          Delete
+          <span className="sr-only">Delete This Comment</span>
+          <img
+            className={`${this.CommentViewToolsStyles}_icon`}
+            src={DeleteSVG}
+            alt="Delete This Comment"
+            aria-hidden="true"
+          />
         </button>
       </div>
     );

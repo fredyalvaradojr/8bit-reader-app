@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { css } from "emotion";
 import { withRouter } from "react-router-dom";
-import globalStyles from "./utils/globalStyles";
 import * as actions from "./actions/index";
 import PostList from "./componets/PostList";
 import PostView from "./componets/PostView";
@@ -15,8 +14,7 @@ class App extends Component {
   App = css`
     width: 100%;
     min-height: 100%;
-    border: 1.5em solid ${globalStyles.color.darkGray};
-    padding: 1.5em;
+    padding: 1.5em 3em;
   `;
 
   render() {

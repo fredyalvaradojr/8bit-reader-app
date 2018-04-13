@@ -13,10 +13,14 @@ const viewTitle = css`
   text-transform: uppercase;
   border-top: 0.1875em solid ${globalStyles.color.darkGray};
   border-bottom: 0.1875em solid ${globalStyles.color.darkGray};
+
+  &.smaller {
+    font-size: 1.8em;
+  }
 `;
 
 const ViewTitle = props => (
-  <h1 className={viewTitle} data-class="viewTitle">
+  <h1 className={`${viewTitle} ${props.modifier}`} data-class="viewTitle">
     {props.content}
   </h1>
 );

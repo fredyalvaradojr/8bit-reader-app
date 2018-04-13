@@ -7,10 +7,16 @@ import * as actions from "../actions";
 import globalStyles from "../utils/globalStyles";
 import ViewTitle from "./ViewTitle";
 import PostListTools from "./PostListTools";
+import AddNewPost from "./AddNewPost";
 
 const PostListStyles = css`
   border-top: 0.125em dotted ${globalStyles.color.darkGray};
   padding-top: 1em;
+
+  @media (min-width: 48em) {
+    display: flex;
+    flex-wrap: wrap;
+  }
 `;
 
 class CategoryView extends Component {
@@ -29,6 +35,7 @@ class CategoryView extends Component {
           content={`The ${this.props.categoryFilterSelectedValue} Category`}
         />
         <PostListTools />
+        <AddNewPost />
         <ul className={PostListStyles} data-class="PostListStyles">
           {this.props.posts.length > 0 ? (
             this.props.posts.map(post => (

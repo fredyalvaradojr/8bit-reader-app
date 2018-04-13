@@ -4,6 +4,8 @@ import { css } from "emotion";
 import { postVote, deletePost, setDeletePostFlag } from "../actions/index";
 import UpvoteSVG from "../media/upvote.svg";
 import DownvoteSVG from "../media/downvote.svg";
+import EditSVG from "../media/edit.svg";
+import DeleteSVG from "../media/delete.svg";
 import Modal from "./Modal";
 
 class PostTools extends Component {
@@ -17,9 +19,15 @@ class PostTools extends Component {
     justify-content: flex-end;
 
     &_upvote,
-    &_downvote {
+    &_downvote,
+    &_edit,
+    &_delete {
       background: none;
       margin-right: 0.5em;
+    }
+
+    &_delete {
+      margin-right: 0;
     }
 
     &_icon {
@@ -83,12 +91,18 @@ class PostTools extends Component {
           />
         </button>
         <button
-          className="post-tools_edit"
+          className={`${this.PostToolsStyles}_edit`}
           onClick={e => {
             this.toggleEditModal(e);
           }}
         >
-          Edit
+          <span className="sr-only">Edit This Post</span>
+          <img
+            className={`${this.PostToolsStyles}_icon`}
+            src={EditSVG}
+            alt="Edit This Post"
+            aria-hidden="true"
+          />
         </button>
         {this.state.activeEditModal ? (
           <Modal
@@ -100,10 +114,16 @@ class PostTools extends Component {
           ""
         )}
         <button
-          className="post-tools_delete"
+          className={`${this.PostToolsStyles}_delete`}
           onClick={e => this.thisDeletePostConfirmation(e, this.props.postId)}
         >
-          Delete
+          <span className="sr-only">Delete This Post</span>
+          <img
+            className={`${this.PostToolsStyles}_icon`}
+            src={DeleteSVG}
+            alt="Delete This Post"
+            aria-hidden="true"
+          />
         </button>
       </div>
     );

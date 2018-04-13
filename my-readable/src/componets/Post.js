@@ -8,11 +8,22 @@ import { hexToRGB, editPostTimestamp } from "../utils/index";
 import PostTools from "./PostTools";
 import CommentsSVG from "../media/comments.svg";
 import VotesSVG from "../media/upvote.svg";
+import PostMeta from "./PostMeta";
 
 const article = css`
-  margin-bottom: 1em;
-  border-bottom: 0.125em dotted ${globalStyles.color.darkGray};
-  padding-bottom: 1em;
+  @media (min-width: 48em) {
+    flex: 0 1 50%;
+  }
+
+  &_article {
+    margin-bottom: 1em;
+    border-bottom: 0.125em dotted ${globalStyles.color.darkGray};
+    padding-bottom: 1em;
+
+    @media (min-width: 48em) {
+      margin: 1em;
+    }
+  }
 
   &_header {
     font-family: "Bungee", cursive;
@@ -22,7 +33,7 @@ const article = css`
   &_header_link {
     text-decoration: none;
     color: ${globalStyles.color.purple};
-    text-shadow: 0.25em 0.25em rgba(${hexToRGB(globalStyles.color.purple)}, 0.2);
+    text-shadow: 0.25em 0.25em rgba(${hexToRGB(globalStyles.color.purple)}, 0.1);
     line-height: 1.5;
     border-bottom-width: 0.0625em;
     border-bottom-color: transparent;
@@ -81,8 +92,8 @@ const article = css`
 
 const Post = props => {
   return (
-    <li key={props.postContent.id}>
-      <article className={article}>
+    <li key={props.postContent.id} className={article} data-class="article">
+      <article className={`${article}_article`}>
         <header>
           <h2 className={`${article}_header`}>
             <NavLink
@@ -99,37 +110,7 @@ const Post = props => {
             </NavLink>
           </h2>
         </header>
-        <div className={`${article}_meta`}>
-          <div className={`${article}_author`}>
-            {props.postContent.author}{" "}
-            <span className={`${article}_date`}>
-              {" "}
-              - {editPostTimestamp(props.postContent.timestamp)}
-            </span>
-          </div>
-          <div className={`${article}_post-numbers`}>
-            <div
-              className={`${article}_number-comments ${article}_post-numbers--item`}
-            >
-              <img
-                className={`${article}_comments-icon`}
-                src={CommentsSVG}
-                aria-hidden="true"
-                alt="comment count icon"
-              />
-              {props.postContent.commentCount}
-            </div>
-            <div className={`${article}_votes ${article}_post-numbers--item`}>
-              <img
-                className={`${article}_votes-icon`}
-                src={VotesSVG}
-                aria-hidden="true"
-                alt="vote score icon"
-              />
-              {props.postContent.voteScore}
-            </div>
-          </div>
-        </div>
+        <PostMeta postContent={props.postContent} />
         <PostTools postId={props.postContent.id} />
       </article>
     </li>
