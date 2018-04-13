@@ -9,6 +9,7 @@ import PostView from "./componets/PostView";
 import FourZeroFour from "./componets/FourZeroFour";
 import CategoryView from "./componets/CategoryView";
 import AppHeader from "./componets/AppHeader";
+import AppFooter from "./componets/AppFooter";
 
 class App extends Component {
   App = css`
@@ -28,6 +29,7 @@ class App extends Component {
           <Route exact path="/:category" component={CategoryView} />
           <Route component={FourZeroFour} />
         </Switch>
+        <AppFooter />
       </div>
     );
   }
