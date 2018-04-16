@@ -38,16 +38,12 @@ class CommentViewTools extends Component {
   `;
 
   toggleEditModal = e => {
-    console.debug(e.currentTarget);
     this.setState({
       activeEditModal: this.state.activeEditModal ? false : true
     });
   };
 
   thisDeleteCommentConfirmation = (e, commentId, parentID) => {
-    console.debug(parentID, "parentid");
-    // setup delete modal, yes dispatch event, no, just close modal
-    console.debug(e.currentTarget, commentId);
     this.props.thisDeleteComment(commentId, parentID);
   };
 

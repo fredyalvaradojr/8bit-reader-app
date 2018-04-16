@@ -4,10 +4,8 @@ import { css } from "emotion";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import globalStyles from "../utils/globalStyles";
-import { hexToRGB, editPostTimestamp } from "../utils/index";
+import { hexToRGB } from "../utils/index";
 import PostTools from "./PostTools";
-import CommentsSVG from "../media/comments.svg";
-import VotesSVG from "../media/upvote.svg";
 import PostMeta from "./PostMeta";
 
 const article = css`

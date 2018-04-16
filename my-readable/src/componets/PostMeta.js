@@ -3,7 +3,7 @@ import { css } from "emotion";
 import globalStyles from "../utils/globalStyles";
 import CommentsSVG from "../media/comments.svg";
 import VotesSVG from "../media/upvote.svg";
-import { hexToRGB, editPostTimestamp } from "../utils/index";
+import { editPostTimestamp } from "../utils/index";
 
 const PostMetaStyles = css`
   &_meta {

@@ -38,15 +38,12 @@ class PostTools extends Component {
   `;
 
   toggleEditModal = e => {
-    console.debug(e.currentTarget);
     this.setState({
       activeEditModal: this.state.activeEditModal ? false : true
     });
   };
 
   thisDeletePostConfirmation = (e, postId) => {
-    // setup delete modal, yes dispatch event, no, just close modal
-    console.debug(e.currentTarget, postId, this.props.thisDeletePostFlag);
     if (this.props.thisDeletePostFlag) {
       this.props.thisSetDeletePostFlag(true);
     } else {

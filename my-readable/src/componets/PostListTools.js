@@ -2,7 +2,6 @@ import React from "react";
 import { css } from "emotion";
 import FilterCategories from "./FilterCategories";
 import SortCurrentList from "./SortCurrentList";
-import AddNewPost from "./AddNewPost";
 
 const PostListToolsStyles = css`
   display: flex;

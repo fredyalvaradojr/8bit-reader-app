@@ -53,7 +53,6 @@ function posts(
 ) {
   switch (action.type) {
     case actions.POSTED_COMMENT_EDIT:
-      console.debug(action);
       return [...state].map(post => {
         if (post.id !== action.props.parentID) {
           return post;
@@ -241,7 +240,6 @@ function activeSort(state = initialState.activeSort, action) {
 function postViewDeleteFlag(state = initialState.postViewDeleteFlag, action) {
   switch (action.type) {
     case actions.POST_DELETE_REDIRECT:
-      console.debug(action);
       return action.bool;
     default:
       return state;

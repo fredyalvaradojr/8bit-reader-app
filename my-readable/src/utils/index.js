@@ -1,7 +1,3 @@
-export const titleAsUrl = title => {
-  return title.toLowerCase().replace(/ /g, "-");
-};
-
 export const editPostTimestamp = t => {
   const months = [
     "Jan",
@@ -19,17 +15,6 @@ export const editPostTimestamp = t => {
   ];
   const date = new Date(t);
   return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
-};
-
-export const setComponent = () => {
-  let componentName = window.location.pathname;
-  if (componentName.includes("/post/")) {
-    componentName = "PostView";
-  } else if (componentName.includes("/category/")) {
-    componentName = "CategoryView";
-  }
-  console.debug(componentName);
-  return componentName;
 };
 
 export const getUniquePostID = () => {

@@ -105,7 +105,6 @@ export function loadallCategories() {
 }
 
 export function postVote(postId, voteScore, allPosts) {
-  console.debug("action vote: ", postId, voteScore, allPosts);
   return function(dispatch) {
     api.postNewVote(postId, voteScore).then(res => {
       if (res.status === 200) {
@@ -245,7 +244,6 @@ export function deleteComment(commentID, parentID) {
 }
 
 export function setDeletePostFlag(bool) {
-  console.debug("setDeletePostFlag: ", bool);
   return { type: POST_DELETE_REDIRECT, bool };
 }
 

@@ -154,11 +154,9 @@ class Modal extends Component {
 
   handleModalEdits = e => {
     if (this.state.postInfoTitle !== "" && this.state.postInfoBody !== "") {
-      console.debug("handleModalEdits: submit");
       this.setState({ fieldsMissing: false });
       this.props.editThisPostInfo(this.state);
     } else {
-      console.debug("handleModalEdits: else");
       this.setState({ fieldsMissing: true });
     }
     e.preventDefault();

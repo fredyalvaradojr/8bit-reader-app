@@ -13,7 +13,6 @@ const FourZeroFourStyles = css`
 `;
 
 const PostList = props => {
-  console.debug(props);
   return (
     <div className={FourZeroFourStyles}>
       <ViewTitle content="404" />

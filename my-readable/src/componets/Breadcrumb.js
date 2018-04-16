@@ -29,7 +29,6 @@ const Breadcrumb = props => {
   return (
     <div className={BreadcrumbStyles}>
       {breadcrumbList.map((item, i) => {
-        console.debug("i: ", i, breadcrumbList.length - 1);
         if (item === "") {
           return (
             <span key={i}>
