@@ -1,6 +1,6 @@
 # \*Bit Posts
 
-This app has been developed to allow a user to read an initial list of availabled posts. Interacting with the App you will come across functionality such as being able to add new posts, rate current posts and delete posts. In addition to this functionality you will be able to sort each post list. Some examples of sorting would be by category or by date.
+This app has been developed to allow a user to read an initial list of availabled posts. Interacting with the App you will come across functionality such as being able to add new posts, rate current posts and delete posts. In addition to this functionality you will be able to sort each post list. Some examples of sorting would be by category or by date. Other functionality includes the ability to add comments to each post and upvote or downvote each individual comment.
 
 It was built by using the 'create-react-app' package in the \*bit folder (https://github.com/facebook/create-react-app) and utilizes the API provided by Udacity in the Readable API Server (https://github.com/udacity/reactnd-project-readable-starter) to gather all the posts and different interactions.
 
@@ -26,17 +26,15 @@ The base guideline has been completed and checked off via the provided rubric (h
   * `npm start` or `yarn start`
 ```
 
-Local url, it will load automaticall when you first start the app:
+#### Step 3: Visit the Local url:
 
 ```bash
 http://localhost:3000/
 ```
 
-directions listed below in order to run the application in local environment. Once everything is installed you will be able to visit the following link in your browser:
+# Readable API Server - provided by Udacity
 
-## Readable API Server
-
-## The following information I have kept the same as it comes directly from Udacity and has not been modified for my needs
+## The following information I have kept the same as it comes directly from Udacity and the code has not been modified.
 
 This is the starter project for the final assessment project for Udacity's Redux course where you will build a content and comment web app. Users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
 
