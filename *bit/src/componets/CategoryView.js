@@ -20,9 +20,8 @@ const PostListStyles = css`
 `;
 
 class CategoryView extends Component {
-  constructor(props) {
-    super(props);
-    this.props.loadFilterCategory(props.match.params.category);
+  componentDidMount() {
+    this.props.loadFilterCategory(this.props.match.params.category);
     if (!this.props.currentView) {
       this.props.thisSetCurrentView("CategoryView");
     }

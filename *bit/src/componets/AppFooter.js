@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { css } from "emotion";
 import { NavLink } from "react-router-dom";
 import globalStyles from "../utils/globalStyles";
