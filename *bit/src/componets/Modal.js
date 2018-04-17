@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { css } from "emotion";
-import uniqid from "uniqid";
 import { editPost, addNewPostInfo, editComment } from "../actions/index";
 import globalStyles from "../utils/globalStyles";
 import ViewTitle from "./ViewTitle";
 import CloseSVG from "../media/close.svg";
-import { hexToRGB } from "../utils/index";
+import { hexToRGB, uniqid } from "../utils/index";
 
 class Modal extends Component {
   ModalStyles = css`

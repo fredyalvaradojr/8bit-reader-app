@@ -36,3 +36,13 @@ export const hexToRGB = (hex, alpha) => {
     b = parseInt(hex.slice(5, 7), 16);
   return `${r},${g},${b}`;
 };
+
+export const uniqid = () => {
+  /* https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript instead of third party */
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return `${s4()}${s4()}${s4()}${s4()}${s4()}`;
+};

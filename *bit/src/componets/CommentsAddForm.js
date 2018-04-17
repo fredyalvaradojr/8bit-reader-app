@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import uniqid from "uniqid";
 import { css } from "emotion";
 import { publishComment } from "../actions/index";
 import globalStyles from "../utils/globalStyles";
-import { hexToRGB } from "../utils/index";
+import { hexToRGB, uniqid } from "../utils/index";
 
 class CommentsAddForm extends Component {
   state = {
