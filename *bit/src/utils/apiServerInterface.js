@@ -74,7 +74,7 @@ export const addNewPost = props =>
       id: props.UUID,
       timestamp: props.timestamp,
       title: props.newPostTitle,
-      body: props.newPostbody,
+      body: props.newPostBody,
       author: props.newPostAuthor,
       category: props.newPostCategory
     })
