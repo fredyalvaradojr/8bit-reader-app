@@ -3,13 +3,14 @@ import { css } from "emotion";
 import CommentViewTools from "./CommentViewTools";
 import PostMeta from "./PostMeta";
 
+const CommentViewStyles = css`
+  &_body {
+    margin-bottom: 1em;
+    font-size: 1.125em;
+  }
+`;
+
 const CommentView = props => {
-  const CommentViewStyles = css`
-    &_body {
-      margin-bottom: 1em;
-      font-size: 1.125em;
-    }
-  `;
   return (
     <div className={CommentViewStyles} data-class="CommentView">
       <div className={`${CommentViewStyles}_body`}>
