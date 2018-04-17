@@ -99,7 +99,7 @@ class Modal extends Component {
     newPostTitle: "",
     newPostBody: "",
     newPostAuthor: "",
-    newPostCategory: "",
+    newPostCategory: "react",
     editCommentBody: "",
     editCommentID: "",
     editcommentParentID: "",
