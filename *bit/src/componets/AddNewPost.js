@@ -31,7 +31,7 @@ class AddNewPost extends Component {
   `;
 
   toggleNewModal = e => {
-    this.setState({ newModalStatus: this.state.newModalStatus ? false : true });
+    this.setState({ newModalStatus: !this.state.newModalStatus });
   };
 
   render() {
