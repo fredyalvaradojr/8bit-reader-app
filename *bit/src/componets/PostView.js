@@ -199,12 +199,17 @@ class PostView extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = ({
+  postViewDeleteFlag,
+  currentPost,
+  currentView,
+  posts
+}) => {
   return {
-    postViewFlag: state.postViewDeleteFlag,
-    currentPost: state.currentPost,
-    currentView: state.currentView,
-    allPosts: state.posts
+    postViewFlag: postViewDeleteFlag,
+    currentPost,
+    currentView,
+    allPosts: posts
   };
 };
 
