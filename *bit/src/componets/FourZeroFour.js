@@ -12,7 +12,7 @@ const FourZeroFourStyles = css`
   }
 `;
 
-const PostList = props => {
+const FourZeroFour = () => {
   return (
     <div className={FourZeroFourStyles}>
       <ViewTitle content="404" />
@@ -31,4 +31,4 @@ const mapDispatchToProps = dispatch => ({
   loadpost: dispatch(actions.loadPosts())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostList);
+export default connect(mapStateToProps, mapDispatchToProps)(FourZeroFour);
